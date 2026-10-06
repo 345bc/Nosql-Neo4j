@@ -34,6 +34,9 @@ builder.Services.AddScoped<AccountCookieEvents>();
 builder.Services.AddScoped<IPasswordHasher<UserAccount>, PasswordHasher<UserAccount>>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<AccountService>();
+builder.Services.AddScoped<IPracticeRepository, PracticeRepository>();
+builder.Services.AddScoped<IPracticeService, PracticeService>();
+builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -73,6 +76,16 @@ await app.Services
     .VerifyConnectivityAsync();
 
 var createUserIndex = Array.IndexOf(args, "--create-user");
+if (args.Contains("--setup-data") || args.Contains("--verify-data") || args.Contains("--migrate-attempts"))
+{
+    if (!app.Environment.IsDevelopment()) throw new InvalidOperationException("Công cụ dữ liệu local chỉ chạy trong Development.");
+    var driver = app.Services.GetRequiredService<IDriver>();
+    if (args.Contains("--setup-data")) await LocalDataCommand.SetupAsync(driver, app.Environment.ContentRootPath);
+    else if (args.Contains("--migrate-attempts")) await LocalDataCommand.MigrateAttemptsAsync(driver);
+    await LocalDataCommand.VerifyAsync(driver);
+    await app.DisposeAsync();
+    return;
+}
 if (createUserIndex >= 0)
 {
     if (!app.Environment.IsDevelopment() || createUserIndex + 1 >= args.Length)

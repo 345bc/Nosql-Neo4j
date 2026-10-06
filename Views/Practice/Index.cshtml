@@ -1,0 +1,43 @@
+@model PracticeStartViewModel
+@{ ViewData["Title"] = "Luyện tập tứ giác"; }
+<h1>Luyện tập tứ giác</h1>
+<p>Mỗi lượt gồm 10 câu. Đúng được 1 điểm; sai hoặc bỏ trống được 0 điểm.</p>
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-warning" role="alert">@Model.ErrorMessage</div>
+}
+@if (Model.ShowDemo && Model.DemoTopics.Count > 0)
+{
+    <section class="card p-3 mt-4">
+        <h2 class="h4">Chạy thử bằng câu mẫu</h2>
+        <p>Lượt demo sử dụng câu hỏi bản nháp để kiểm tra làm bài và chấm điểm, chỉ mở trong Development.</p>
+        <form asp-controller="Practice" asp-action="Demo" method="post">
+            <label for="demoTopicId" class="form-label">Chủ đề thử</label>
+            <select id="demoTopicId" name="topicId" class="form-select mb-3" style="max-width:440px">
+                @foreach (var topic in Model.DemoTopics)
+                {
+                    <option value="@topic.Id" selected="@(topic.Id == (Model.TopicId ?? "HINH_VUONG"))">@topic.Name</option>
+                }
+            </select>
+            <button type="submit" class="btn btn-primary">Chạy thử 10 câu</button>
+        </form>
+    </section>
+}
+@if (Model.Topics.Count == 0)
+{
+    <div class="alert alert-info">Chưa có chủ đề được công bố. Vui lòng quay lại sau.</div>
+}
+else
+{
+    <form asp-controller="Practice" asp-action="Create" method="post" class="mb-3">
+        <label for="topicId" class="form-label">Chủ đề</label>
+        <select id="topicId" name="topicId" class="form-select mb-3" style="max-width:440px">
+            <option value="">Tất cả chủ đề</option>
+            @foreach (var topic in Model.Topics)
+            {
+                <option value="@topic.Id" selected="@(topic.Id == Model.TopicId)">@topic.Name</option>
+            }
+        </select>
+        <button type="submit" class="btn btn-primary">Bắt đầu 10 câu</button>
+    </form>
+}

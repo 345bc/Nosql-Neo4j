@@ -1,0 +1,27 @@
+@model PracticeResult
+@{ ViewData["Title"] = "Kết quả luyện tập"; }
+<h1>Kết quả luyện tập</h1>
+@if (Model.IsDemo)
+{
+    <div class="alert alert-info">Kết quả demo từ câu hỏi bản nháp, không tính vào thống kê luyện tập chính thức.</div>
+}
+<div class="alert alert-success">
+    <strong>Điểm: @Model.Score/10</strong> · Đúng: @Model.Score · Sai: @Model.IncorrectCount · Bỏ trống: @Model.UnansweredCount
+</div>
+<p>Nộp lúc @Model.SubmittedAt.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm dd/MM/yyyy") (giờ Việt Nam).</p>
+@for (var i = 0; i < Model.Items.Length; i++)
+{
+    var item = Model.Items[i];
+    <section class="card mb-3"><div class="card-body">
+        <h2 class="h5">Câu @(i + 1). @item.Question.Prompt</h2>
+        <ul class="list-unstyled">
+            @foreach (var option in item.Question.Options) { <li>@option.Key. @option.Text</li> }
+        </ul>
+        <p>Bạn chọn: @(item.SelectedKey ?? "Bỏ trống") · Đáp án đúng: <strong>@item.CorrectKey</strong></p>
+        <p class="@(item.IsCorrect ? "text-success" : "text-danger")">@(item.IsCorrect ? "Đúng" : "Chưa đúng")</p>
+        <p>@item.Explanation</p>
+    </div></section>
+}
+<a asp-action="Index" class="btn btn-primary">Luyện tập lượt mới</a>
+<a asp-controller="Progress" asp-action="History" asp-route-demo="@Model.IsDemo" class="btn btn-outline-primary ms-2">Xem lịch sử</a>
+<a asp-controller="Progress" asp-action="Statistics" asp-route-demo="@Model.IsDemo" class="btn btn-outline-primary ms-2">Xem thống kê</a>

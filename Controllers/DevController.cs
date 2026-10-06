@@ -7,7 +7,7 @@ using Nosql_Neo4j.Services;
 namespace Nosql_Neo4j.Controllers;
 
 [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-public class DevController(IShapeDiagnosticService service, IWebHostEnvironment environment,
+public class DevController(IShapeDiagnosticService service, IQuestionDiagnosticService questionService, IWebHostEnvironment environment,
     ILogger<DevController> logger) : Controller
 {
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -51,6 +51,23 @@ public class DevController(IShapeDiagnosticService service, IWebHostEnvironment 
         catch (Neo4jException exception)
         {
             return DatabaseError(nameof(Graph), new DraftGraphViewModel { ErrorMessage = DatabaseMessage }, exception);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Questions(string? topicId = null)
+    {
+        topicId = string.IsNullOrWhiteSpace(topicId) ? "HINH_VUONG" : topicId.Trim();
+        try
+        {
+            return View(await questionService.GetDraftByTopicAsync(topicId));
+        }
+        catch (Neo4jException exception)
+        {
+            return DatabaseError(nameof(Questions), new DraftQuestionsViewModel
+            {
+                TopicId = topicId, ErrorMessage = DatabaseMessage
+            }, exception);
         }
     }
 

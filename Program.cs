@@ -34,6 +34,8 @@ builder.Services.AddSingleton<IDriver>(_ =>
 
 builder.Services.AddScoped<IShapeRepository, ShapeRepository>();
 builder.Services.AddScoped<IShapeDiagnosticService, ShapeDiagnosticService>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+builder.Services.AddScoped<IQuestionDiagnosticService, QuestionDiagnosticService>();
 
 var app = builder.Build();
 

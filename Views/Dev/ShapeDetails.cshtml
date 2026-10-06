@@ -22,6 +22,8 @@ else if (Model.Shape is { } shape)
 
     <h2 class="h4">Định nghĩa</h2>
     <p>@(string.IsNullOrWhiteSpace(shape.Definition) ? "Chưa có định nghĩa." : shape.Definition)</p>
+    <p><strong>Quy ước:</strong> @shape.Convention</p>
+    <p><strong>Nguồn:</strong> @(string.IsNullOrWhiteSpace(shape.SourceTitle) ? "Chưa bổ sung nguồn được duyệt." : shape.SourceTitle + " · " + shape.SourceLocator)</p>
 
     <h2 class="h4">Tính chất</h2>
     @if (shape.Properties.Length == 0) { <p>Chưa có tính chất.</p> }

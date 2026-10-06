@@ -1,0 +1,47 @@
+@page
+@model Nosql_Neo4j.Pages.Dev.ShapesModel
+@{
+    ViewData["Title"] = "Kiểm tra dữ liệu Neo4j";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p class="text-muted">Trang kiểm tra trong Development, đọc các hình có trạng thái DRAFT.</p>
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger" role="alert">@Model.ErrorMessage</div>
+}
+else if (Model.Shapes.Count == 0)
+{
+    <div class="alert alert-warning" role="status">
+        Truy vấn thành công nhưng chưa có hình DRAFT. Kiểm tra seed đã chạy trong database nosql-neo4j
+        và trạng thái dữ liệu chưa chuyển sang PUBLISHED.
+    </div>
+}
+else
+{
+    <div class="alert alert-success" role="status">
+        Đã đọc được @Model.Shapes.Count hình DRAFT từ Neo4j. Bộ seed nền dự kiến có 6 hình.
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <caption>Danh sách hình bản nháp trong cơ sở dữ liệu</caption>
+            <thead>
+                <tr><th scope="col">ID</th><th scope="col">Tên hình</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var shape in Model.Shapes)
+                {
+                    <tr>
+                        <td>@shape.Id</td>
+                        <td><a asp-page="/Dev/ShapeDetails" asp-route-id="@shape.Id">@shape.Name</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<a asp-page="/Dev/Shapes" class="btn btn-primary">Kiểm tra lại</a>
+<a asp-page="/Dev/Graph" class="btn btn-primary">Kiểm tra đồ thị</a>
+<a asp-page="/Index" class="btn btn-link">Trang chủ</a>

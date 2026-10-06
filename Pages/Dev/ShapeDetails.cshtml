@@ -1,0 +1,56 @@
+@page "{id}"
+@model Nosql_Neo4j.Pages.Dev.ShapeDetailsModel
+@{
+    ViewData["Title"] = Model.Shape?.Name ?? "Chi tiết dữ liệu";
+}
+
+<a asp-page="/Dev/Shapes" class="btn btn-primary mb-3">Về danh sách hình</a>
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger" role="alert">@Model.ErrorMessage</div>
+}
+else if (Model.Shape is { } shape)
+{
+    <h1>@shape.Name</h1>
+    <p class="text-muted">@shape.Id · Bản nháp DRAFT · Chỉ kiểm tra trong Development</p>
+    @if (string.IsNullOrWhiteSpace(shape.Definition) || shape.Formulas.Count == 0)
+    {
+        <div class="alert alert-warning" role="status">
+            Kiến thức chưa đủ. Kiểm tra đã chạy data/seed-knowledge.cypher trong đúng database.
+        </div>
+    }
+
+    <h2 class="h4">Định nghĩa</h2>
+    <p>@(string.IsNullOrWhiteSpace(shape.Definition) ? "Chưa có định nghĩa." : shape.Definition)</p>
+
+    <h2 class="h4">Tính chất</h2>
+    @if (shape.Properties.Length == 0) { <p>Chưa có tính chất.</p> }
+    else { <ul>@foreach (var item in shape.Properties) { <li>@item</li> }</ul> }
+
+    <h2 class="h4">Dấu hiệu nhận biết</h2>
+    @if (shape.RecognitionSigns.Length == 0) { <p>Chưa có dấu hiệu nhận biết.</p> }
+    else { <ul>@foreach (var item in shape.RecognitionSigns) { <li>@item</li> }</ul> }
+
+    <h2 class="h4">Công thức</h2>
+    @if (shape.Formulas.Count == 0) { <p>Chưa có công thức.</p> }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <caption>Công thức và điều kiện áp dụng</caption>
+                <thead><tr><th scope="col">Tên</th><th scope="col">Biểu thức</th><th scope="col">Ký hiệu</th><th scope="col">Điều kiện</th></tr></thead>
+                <tbody>
+                    @foreach (var formula in shape.Formulas)
+                    {
+                        <tr><td>@formula.Name</td><td>@formula.Expression</td><td>@formula.Variables</td><td>@formula.Conditions</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <h2 class="h4">Ví dụ</h2>
+    @if (shape.Examples.Length == 0) { <p>Chưa có ví dụ.</p> }
+    else { <ul>@foreach (var item in shape.Examples) { <li>@item</li> }</ul> }
+}

@@ -16,7 +16,9 @@ Tín giữ phạm vi nhỏ hơn. Mỗi người làm trọn trang mình. Tuấn 
 
 ## Bắt đầu và làm song song
 
-Cài .NET SDK 10; chạy `dotnet restore`, `dotnet build`, `dotnet run --launch-profile https`. URL hiện tại https://localhost:7277. Mã hiện tại mới là khung Razor Pages, chưa có Neo4j driver/xác thực/chức năng học tập. Thư mục hiện tại chưa có Git; quy trình PR áp dụng khi đưa vào repo chung.
+Cài .NET SDK 10; chạy `dotnet restore`, `dotnet build`, `dotnet run --launch-profile https`. URL hiện tại https://localhost:7277. Mã hiện tại có khung Razor Pages và kết nối Neo4j; chưa có xác thực/chức năng học tập. Quy trình PR áp dụng trong repository chung.
+
+Kết nối Neo4j đã đăng ký trong Program.cs. Trong Development, copy .env.example thành .env, điền Neo4j__Uri/Neo4j__Username/Neo4j__Password và bật instance trước khi chạy. File .env ghi đè appsettings/user-secrets, biến môi trường thật ưu tiên cao hơn .env. Production chỉ dùng cấu hình môi trường, không đọc .env. Giá trị hỗ trợ dấu = và # trong mật khẩu; comment phải nằm trên dòng riêng. Có thể bọc giá trị bằng dấu nháy đơn/đôi; không hỗ trợ biến nội suy hoặc nhiều dòng. Không commit .env, không đưa file vào wwwroot.
 
 1. Đọc [pages.md](pages.md), chốt route/handler/InputModel/ViewModel và interface service trong NEO4-16. Tuấn xác nhận schema/ID seed. Không ghi phê duyệt thay thành viên.
 2. Vỷ/Tín dựng Razor và PageModel bằng service giả trả ViewModel C# trong môi trường phát triển, trong khi Tuấn làm repository thật. Không dùng API/JSON mock.

@@ -1,0 +1,57 @@
+@page
+@model Nosql_Neo4j.Pages.Dev.GraphModel
+@{
+    ViewData["Title"] = "Kiểm tra đồ thị phân loại";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p>Chỉ đọc DRAFT trong Development. IS_A đi từ hình chuyên biệt tới hình tổng quát.</p>
+<p>Quy ước: hình thang có ít nhất một cặp cạnh đối song song.</p>
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger" role="alert">@Model.ErrorMessage</div>
+}
+else if (Model.Graph is { } graph)
+{
+    <div class="alert alert-info" role="status">
+        Đọc được @graph.Nodes.Count hình, @graph.Edges.Count cạnh và @graph.Paths.Count đường hình vuông → tứ giác.
+        Bộ seed nền dự kiến: 6 hình, 6 cạnh, 2 đường.
+    </div>
+
+    <h2 class="h4">Quan hệ trực tiếp</h2>
+    @if (graph.Edges.Count == 0)
+    {
+        <p>Chưa có cạnh giữa các hình DRAFT. Kiểm tra seed và trạng thái dữ liệu.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <caption>IS_A: hình con là trường hợp đặc biệt của hình cha</caption>
+                <thead><tr><th scope="col">Hình con</th><th scope="col">Quan hệ</th><th scope="col">Hình cha</th></tr></thead>
+                <tbody>
+                    @foreach (var edge in graph.Edges)
+                    {
+                        <tr><td>@Model.NameOf(edge.SourceId)</td><td>IS_A →</td><td>@Model.NameOf(edge.TargetId)</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <h2 class="h4">Đường từ hình vuông đến tứ giác</h2>
+    @if (graph.Paths.Count == 0) { <p>Không tìm thấy đường phân loại giữa các hình DRAFT.</p> }
+    else
+    {
+        <ol>
+            @foreach (var path in graph.Paths)
+            {
+                <li>@string.Join(" → ", path.Select(Model.NameOf))</li>
+            }
+        </ol>
+    }
+}
+
+<a asp-page="/Dev/Graph" class="btn btn-primary">Kiểm tra lại</a>
+<a asp-page="/Dev/Shapes" class="btn btn-outline-primary">Danh sách hình</a>

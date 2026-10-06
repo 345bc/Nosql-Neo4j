@@ -1,10 +1,24 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Nosql_Neo4j</RootNamespace>
+    <UserSecretsId>e3c7d855-6047-4aeb-8401-89a764d004e5</UserSecretsId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Neo4j.Driver" Version="6.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove=".env;.env.*" />
+    <None Remove=".env;.env.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Dev\" />
+  </ItemGroup>
 
 </Project>

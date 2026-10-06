@@ -1,10 +1,9 @@
-@page "{id}"
-@model Nosql_Neo4j.Pages.Dev.ShapeDetailsModel
+@model DraftShapeDetailsViewModel
 @{
     ViewData["Title"] = Model.Shape?.Name ?? "Chi tiết dữ liệu";
 }
 
-<a asp-page="/Dev/Shapes" class="btn btn-primary mb-3">Về danh sách hình</a>
+<a asp-controller="Dev" asp-action="Shapes" class="btn btn-primary mb-3">Về danh sách hình</a>
 
 @if (Model.ErrorMessage is not null)
 {

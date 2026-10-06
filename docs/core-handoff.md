@@ -1,10 +1,10 @@
 # Bàn giao core đọc dữ liệu Neo4j
 
-Ứng dụng .NET 10 Razor Pages, không REST API. Các repository đã đăng ký trong Program.cs và dùng chung IDriver. Database hiện được chỉ định là nosql-neo4j; mọi thành viên cần tạo/seed đúng database này.
+Ứng dụng .NET 10 MVC với Controller và Razor Views, không REST API. Các repository đã đăng ký trong Program.cs và dùng chung IDriver. Database hiện được chỉ định là nosql-neo4j; mọi thành viên cần tạo/seed đúng database này.
 
 ## Cách dùng IShapeRepository
 
-Inject IShapeRepository qua constructor service hoặc PageModel. Trang chức năng nên qua service để xử lý nghiệp vụ; repository chỉ đọc dữ liệu.
+Inject IShapeRepository qua constructor service. Controller gọi service để xử lý nghiệp vụ; repository chỉ đọc dữ liệu. Core hiện có IShapeDiagnosticService/ShapeDiagnosticService cho ba action Dev; chức năng công khai bổ sung service riêng.
 
 | Hàm | Kết quả | Người dùng chính |
 |---|---|---|
@@ -15,7 +15,7 @@ Inject IShapeRepository qua constructor service hoặc PageModel. Trang chức n
 
 Các hàm Draft tương ứng dành cho trang chẩn đoán Development. Trang kiểm tra phải chặn môi trường khác trước khi gọi repository. Không dùng hàm Draft trong trang công khai.
 
-Pair đọc hai hình trong cùng giao dịch đọc; thiếu/trùng ID gây ArgumentException. PageModel/service cần validate trước và hiển thị lỗi form. Pair chỉ trả nội dung gốc, không suy ra tính chất chung/riêng bằng cách so sánh chuỗi. Tín xây nghiệp vụ/bảng năm tiêu chí riêng theo pages.md, thống nhất dữ liệu có cấu trúc với Tuấn khi cần.
+Pair đọc hai hình trong cùng giao dịch đọc; thiếu/trùng ID gây ArgumentException. Controller/service cần validate trước và hiển thị lỗi form. Pair chỉ trả nội dung gốc, không suy ra tính chất chung/riêng bằng cách so sánh chuỗi. Tín xây nghiệp vụ/bảng năm tiêu chí riêng theo mvc.md, thống nhất dữ liệu có cấu trúc với Tuấn khi cần.
 
 GetGraph trả toàn bộ node/cạnh đúng trạng thái cùng các đường giữa hai ID. ID không có hoặc không có đường trả Paths rỗng; service phân biệt ID sai nếu cần. Truy vấn đường giới hạn 5 cạnh cho bộ sáu hình; thêm loại hình phải rà lại giới hạn. Node lẻ vẫn có trong Nodes.
 

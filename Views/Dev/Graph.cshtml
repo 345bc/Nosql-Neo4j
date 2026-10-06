@@ -1,5 +1,4 @@
-@page
-@model Nosql_Neo4j.Pages.Dev.GraphModel
+@model DraftGraphViewModel
 @{
     ViewData["Title"] = "Kiểm tra đồ thị phân loại";
 }
@@ -53,5 +52,5 @@ else if (Model.Graph is { } graph)
     }
 }
 
-<a asp-page="/Dev/Graph" class="btn btn-primary">Kiểm tra lại</a>
-<a asp-page="/Dev/Shapes" class="btn btn-outline-primary">Danh sách hình</a>
+<a asp-controller="Dev" asp-action="Graph" class="btn btn-primary">Kiểm tra lại</a>
+<a asp-controller="Dev" asp-action="Shapes" class="btn btn-outline-primary">Danh sách hình</a>

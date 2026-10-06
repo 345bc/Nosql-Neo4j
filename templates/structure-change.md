@@ -1,11 +1,9 @@
-# Thay đổi cấu trúc
+# Thay đổi cấu trúc MVC
 
 - Jira / lý do:
-- Route/handler/InputModel/ViewModel/service trước → sau:
-- Trang/schema/người bị ảnh hưởng:
-- Cách di chuyển và thứ tự tích hợp:
-- pages.md/template cần sửa:
+- Controller/action/route/InputModel/ViewModel/service trước → sau:
+- View/schema/người bị ảnh hưởng:
+- Thứ tự tích hợp:
+- mvc.md/template cần cập nhật:
 - Kiểm tra:
-- Bằng chứng các thành viên liên quan thống nhất:
-
-Không ghi phê duyệt khi chưa có xác nhận.
+- Bằng chứng thống nhất thực tế:

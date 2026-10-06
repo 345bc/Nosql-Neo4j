@@ -1,0 +1,70 @@
+// Chia thành Models/ViewModels, Models/InputModels và Services khi dùng.
+// File .template không tham gia build.
+using System.ComponentModel.DataAnnotations;
+namespace Nosql_Neo4j.Contracts;
+
+public sealed record ShapeSummaryVm(string Id, string Name, string[] Aliases, string? ImageUrl);
+public sealed record FormulaVm(string Name, string Expression, string Variables, string Conditions);
+public sealed record SourceVm(string Title, string Locator);
+public sealed record ShapeDetailVm(ShapeSummaryVm Summary, string Definition,
+    string[] Properties, string[] RecognitionSigns, FormulaVm[] Formulas,
+    string[] Examples, SourceVm[] Sources, string? Convention);
+public sealed record ShapeListVm(ShapeSummaryVm[] Items, int Page, int PageSize, int TotalItems);
+public sealed record GraphNodeVm(string Id, string Name);
+public sealed record GraphEdgeVm(string SourceId, string TargetId, string Type);
+public sealed record GraphVm(GraphNodeVm[] Nodes, GraphEdgeVm[] Edges, string[][] Paths, string Convention);
+public sealed record CompareCriterionVm(string Key, string Label, string LeftValue, string RightValue);
+public sealed record CompareVm(ShapeSummaryVm Left, ShapeSummaryVm Right,
+    CompareCriterionVm[] Criteria, string[] CommonProperties,
+    string[] LeftOnlyProperties, string[] RightOnlyProperties);
+
+public sealed class CreateAttemptInput { public string? TopicId { get; set; } }
+public sealed class SubmitAnswerInput
+{
+    [Required] public string ItemId { get; set; } = string.Empty;
+    [RegularExpression("^[ABCD]$")] public string? SelectedKey { get; set; }
+}
+public sealed class SubmitAttemptInput
+{
+    public List<SubmitAnswerInput> Items { get; set; } = new();
+}
+public sealed record OptionVm(string Key, string Text);
+public sealed record PaperQuestionVm(string ItemId, string QuestionId,
+    string QuestionVersionId, string TopicId, string Prompt, OptionVm[] Options);
+public sealed record AttemptPaperVm(string Id, string? TopicId, DateTimeOffset StartedAt,
+    DateTimeOffset ExpiresAt, PaperQuestionVm[] Questions);
+public sealed record ResultItemVm(PaperQuestionVm Question, string? SelectedKey,
+    string CorrectKey, bool IsCorrect, string Explanation);
+public sealed record AttemptResultVm(string Id, string? TopicId, DateTimeOffset SubmittedAt,
+    int Score, int TotalQuestions, int CorrectCount, int IncorrectCount,
+    int UnansweredCount, decimal CorrectRate, ResultItemVm[] Items);
+
+public interface IShapeService
+{
+    Task<ShapeListVm> ListAsync(string? q, int page, CancellationToken ct);
+    Task<ShapeDetailVm?> GetDetailAsync(string id, CancellationToken ct);
+    Task<GraphVm> GetGraphAsync(string? fromId, string? toId, CancellationToken ct);
+}
+public interface ICompareService
+{
+    Task<CompareVm?> CompareAsync(string leftId, string rightId, CancellationToken ct);
+}
+// Danh tính lấy từ server, không lấy từ form; null là chưa đăng nhập.
+public interface ICurrentUser { string? Id { get; } }
+public interface IPracticeService
+{
+    Task<string> CreateAsync(CreateAttemptInput input, CancellationToken ct);
+    // null: không có/không thuộc chủ. Exception nghiệp vụ: đã nộp/hết hạn.
+    Task<AttemptPaperVm?> GetPaperAsync(string id, CancellationToken ct);
+    Task<AttemptResultVm?> SubmitAsync(string id, SubmitAttemptInput input, CancellationToken ct);
+    // Exception nghiệp vụ: chưa nộp/hết hạn. Xử lý điều hướng theo pages.md.
+    Task<AttemptResultVm?> GetResultAsync(string id, CancellationToken ct);
+}
+public sealed class DomainValidationException : Exception
+{
+    public string Code { get; }
+    public IReadOnlyDictionary<string, string[]> Errors { get; }
+    public DomainValidationException(string code, string message,
+        IReadOnlyDictionary<string, string[]> errors) : base(message)
+    { Code = code; Errors = errors; }
+}

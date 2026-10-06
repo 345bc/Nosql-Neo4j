@@ -1,0 +1,17 @@
+@page
+@model Nosql_Neo4j.Pages.Example.IndexModel
+@{
+    ViewData["Title"] = "Trang mẫu";
+}
+<h1>@ViewData["Title"]</h1>
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <label asp-for="Input.Name"></label>
+    <input asp-for="Input.Name" class="form-control" />
+    <span asp-validation-for="Input.Name" class="text-danger"></span>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@* Thay namespace/model/form theo page-spec. POST Tag Helper sinh antiforgery token. *@

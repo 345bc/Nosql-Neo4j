@@ -1,0 +1,30 @@
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
+namespace Nosql_Neo4j.Pages.Example;
+
+// Thêm [Authorize] ở PageModel nếu cần. Đổi namespace/kiểu trước khi dùng.
+public class IndexModel : PageModel
+{
+    [BindProperty] public ExampleInput Input { get; set; } = new();
+    public void OnGet() { }
+    public IActionResult OnPost()
+    {
+        if (!ModelState.IsValid)
+        {
+            // Nạp lại dropdown/ViewModel từ service khi cần.
+            return Page();
+        }
+        // Thay bằng service ghi thật và xử lý lỗi; chưa có persistence.
+        ModelState.AddModelError(string.Empty, "Chưa triển khai service lưu dữ liệu.");
+        return Page();
+        // Khi ghi thật thành công: return RedirectToPage("./Index");
+    }
+}
+public sealed class ExampleInput
+{
+    [Required(ErrorMessage = "Vui lòng nhập tên.")]
+    [StringLength(100)]
+    public string Name { get; set; } = string.Empty;
+}

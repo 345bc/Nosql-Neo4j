@@ -1,6 +1,7 @@
 using Neo4j.Driver;
 using Nosql_Neo4j.Configuration;
 using Nosql_Neo4j.Repositories;
+using Nosql_Neo4j.Services;
 
 
 
@@ -10,7 +11,8 @@ builder.AddLocalNeo4jEnv();
 
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews(options =>
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute()));
 
 builder.Services.AddSingleton<IDriver>(_ =>
 {
@@ -31,6 +33,7 @@ builder.Services.AddSingleton<IDriver>(_ =>
 });
 
 builder.Services.AddScoped<IShapeRepository, ShapeRepository>();
+builder.Services.AddScoped<IShapeDiagnosticService, ShapeDiagnosticService>();
 
 var app = builder.Build();
 
@@ -53,7 +56,9 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}")
+    .WithStaticAssets();
 
 app.Run();

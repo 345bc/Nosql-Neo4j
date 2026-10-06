@@ -1,0 +1,25 @@
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+namespace Nosql_Neo4j.Controllers;
+
+public class ExampleController : Controller
+{
+    [HttpGet]
+    public IActionResult Index() => View(new ExampleInput());
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Index(ExampleInput input)
+    {
+        if (!ModelState.IsValid) return View(input);
+        // Gọi service ghi dữ liệu thật, xử lý lỗi rồi RedirectToAction.
+        ModelState.AddModelError(string.Empty, "Chưa triển khai service lưu dữ liệu.");
+        return View(input);
+    }
+}
+public sealed class ExampleInput
+{
+    [Required(ErrorMessage = "Vui lòng nhập tên.")]
+    [StringLength(100)]
+    public string Name { get; set; } = string.Empty;
+}

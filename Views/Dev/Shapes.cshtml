@@ -1,5 +1,4 @@
-@page
-@model Nosql_Neo4j.Pages.Dev.ShapesModel
+@model DraftShapesViewModel
 @{
     ViewData["Title"] = "Kiểm tra dữ liệu Neo4j";
 }
@@ -34,7 +33,7 @@ else
                 {
                     <tr>
                         <td>@shape.Id</td>
-                        <td><a asp-page="/Dev/ShapeDetails" asp-route-id="@shape.Id">@shape.Name</a></td>
+                        <td><a asp-controller="Dev" asp-action="ShapeDetails" asp-route-id="@shape.Id">@shape.Name</a></td>
                     </tr>
                 }
             </tbody>
@@ -42,6 +41,6 @@ else
     </div>
 }
 
-<a asp-page="/Dev/Shapes" class="btn btn-primary">Kiểm tra lại</a>
-<a asp-page="/Dev/Graph" class="btn btn-primary">Kiểm tra đồ thị</a>
-<a asp-page="/Index" class="btn btn-link">Trang chủ</a>
+<a asp-controller="Dev" asp-action="Shapes" class="btn btn-primary">Kiểm tra lại</a>
+<a asp-controller="Dev" asp-action="Graph" class="btn btn-primary">Kiểm tra đồ thị</a>
+<a asp-controller="Home" asp-action="Index" class="btn btn-link">Trang chủ</a>

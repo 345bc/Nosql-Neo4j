@@ -1,55 +1,59 @@
-# Hướng dẫn đóng góp — Razor Pages
+# Hướng dẫn đóng góp — ASP.NET Core MVC
 
-Dùng ASP.NET Core .NET 10 Razor Pages như repo hiện tại: mỗi trang gồm .cshtml và .cshtml.cs (PageModel). Razor Pages dùng hạ tầng MVC nhưng nhóm không tổ chức Controller + Views và không xây REST API.
-
-Luồng: trình duyệt → PageModel → Service → Repository → Neo4j → ViewModel → Razor HTML. Form GET để tìm/lọc, POST để ghi. Không chạy Cypher trong Razor hay kết nối CSDL từ trình duyệt.
+Dự án .NET 10 dùng Controller + Razor Views, không REST API và không PageModel.
+Luồng: trình duyệt → Controller → Service → Repository → Neo4j; Controller trả ViewModel cho View .cshtml.
 
 ## Phân công
 
 | Người | Trách nhiệm |
 |---|---|
-| Tuấn | CSDL Neo4j, seed, Cypher, kết nối; xác thực, luyện tập/chấm điểm; tích hợp và README |
-| Vỷ | Trang tra cứu, tìm kiếm, chi tiết, đồ thị; PageModel/service tương ứng; SRS |
-| Tín | Trang so sánh, PageModel/service tương ứng; hướng dẫn sử dụng |
+| Tuấn | Neo4j/schema/seed/repository, xác thực, luyện tập/chấm điểm, tích hợp |
+| Vỷ | ShapesController, service, Views/Shapes cho tra cứu/tìm kiếm/đồ thị; SRS |
+| Tín | CompareController, service, Views/Compare; hướng dẫn sử dụng |
 
-Tín giữ phạm vi nhỏ hơn. Mỗi người làm trọn trang mình. Tuấn cung cấp repository/truy vấn chung. Task Done được tiếp nhận để bảo trì; lịch sử người thực hiện vẫn giữ trong Jira.
+Tín giữ phạm vi nhỏ hơn. Mỗi người làm trọn chức năng trên fork và gửi PR vào repo chung.
 
-## Bắt đầu và làm song song
+## Chạy local
 
-Cài .NET SDK 10; chạy `dotnet restore`, `dotnet build`, `dotnet run --launch-profile https`. URL hiện tại https://localhost:7277. Mã hiện tại có khung Razor Pages và kết nối Neo4j; chưa có xác thực/chức năng học tập. Quy trình PR áp dụng trong repository chung.
+Đọc README.md và Data/README.md. Copy .env.example thành .env, điền mật khẩu thật, bật instance và seed database nosql-neo4j.
+Chạy dotnet restore, dotnet build, dotnet run --launch-profile https.
+Development đọc .env; biến môi trường thật ưu tiên hơn .env, .env ưu tiên hơn user-secrets/appsettings. Không commit .env.
 
-Kết nối Neo4j đã đăng ký trong Program.cs. Trong Development, copy .env.example thành .env, điền Neo4j__Uri/Neo4j__Username/Neo4j__Password và bật instance trước khi chạy. File .env ghi đè appsettings/user-secrets, biến môi trường thật ưu tiên cao hơn .env. Production chỉ dùng cấu hình môi trường, không đọc .env. Giá trị hỗ trợ dấu = và # trong mật khẩu; comment phải nằm trên dòng riêng. Có thể bọc giá trị bằng dấu nháy đơn/đôi; không hỗ trợ biến nội suy hoặc nhiều dòng. Không commit .env, không đưa file vào wwwroot.
+## Làm song song
 
-1. Đọc [pages.md](pages.md), chốt route/handler/InputModel/ViewModel và interface service trong NEO4-16. Tuấn xác nhận schema/ID seed. Không ghi phê duyệt thay thành viên.
-2. Vỷ/Tín dựng Razor và PageModel bằng service giả trả ViewModel C# trong môi trường phát triển, trong khi Tuấn làm repository thật. Không dùng API/JSON mock.
-3. Giữ interface service khi chuyển sang Neo4j thật, tích hợp từng trang sớm. Mock không phải bằng chứng Done.
-4. Mỗi người kiểm tra trang mình, Tuấn kiểm tra bản chung; chụp ảnh hướng dẫn từ bản chạy thật.
+Chốt route/action/InputModel/ViewModel/service theo [mvc.md](mvc.md) trong NEO4-16. Tuấn xác nhận schema/ID seed. Không ghi phê duyệt thay người khác.
+Vỷ/Tín dựng View bằng service giả trả model C# trong Development; dùng cùng interface khi nối Neo4j thật.
+Tích hợp từng chức năng sớm, kiểm tra dữ liệu thật trước Done. Tuấn điều phối Program.cs/DI/layout chung.
 
-## Cấu trúc thư mục khi triển khai
+## Cấu trúc
 
-- Pages/Shapes/: Index, Details, Graph — Vỷ.
-- Pages/Compare/: Index — Tín.
-- Pages/Practice/: Index, Take, Result; Pages/Account/: Login, Logout — Tuấn.
-- Models/ViewModels/: dữ liệu hiển thị; Models/InputModels/: input form.
-- Services/: nghiệp vụ; Repositories/: driver và Cypher; Data/: schema/seed.
-- Program.cs, DI, cấu hình và layout chung do Tuấn điều phối; báo trong task trước khi sửa.
+- Controllers/: nhận request, validate input, gọi service, trả View/redirect/status.
+- Views/{Controller}/: .cshtml; Views/Shared/: layout, partial, Error; không @page.
+- Models/InputModels/: dữ liệu được bind từ form; Models/ViewModels/: dữ liệu hiển thị.
+- Services/: quy tắc nghiệp vụ; Repositories/: Neo4j/Cypher; Data/: schema/seed.
+- DevController và IShapeDiagnosticService chỉ phục vụ chẩn đoán DRAFT trong Development.
 
 ## Quy tắc
 
-C# PascalCase, namespace Nosql_Neo4j; async có hậu tố Async và CancellationToken. GET chỉ đọc, POST dùng antiforgery mặc định của Razor Pages. Dùng form Tag Helpers; không tắt token.
+GET chỉ đọc. POST dùng [HttpPost]; bộ lọc AutoValidateAntiforgeryToken đã đăng ký toàn cục trong Program.cs.
+Form Tag Helper sinh token; không tắt kiểm tra. Action mẫu có [ValidateAntiForgeryToken] để thể hiện yêu cầu rõ ràng.
+Dùng asp-controller/asp-action/asp-route-id, không asp-page hay asp-page-handler.
 
-Bind InputModel riêng bằng [BindProperty], không bind entity Neo4j hoặc điểm/userId/role/đáp án đúng. Query dùng tham số OnGetAsync. Khi ModelState sai phải nạp lại dropdown/ViewModel rồi return Page(); thành công dùng RedirectToPage (Post/Redirect/Get).
+Bind InputModel riêng, không bind entity hoặc điểm/userId/role/đáp án đúng.
+ModelState sai phải nạp lại dropdown/ViewModel rồi View(model); thành công RedirectToAction (Post/Redirect/Get).
+[Authorize] có thể đặt ở Controller hoặc action khi xác thực đã được triển khai.
+Quyền/chủ lượt kiểm tra từ danh tính server trong service. GET không đăng xuất.
+Login chỉ LocalRedirect với returnUrl local. Razor encode nội dung, không Html.Raw dữ liệu người dùng.
 
-Service kiểm tra quyền/chủ lượt từ danh tính server. [Authorize] đặt ở PageModel/trang, không đặt riêng lên handler. Razor encode nội dung; không Html.Raw dữ liệu người dùng. Không tin hidden field để chấm bài.
+C# PascalCase, namespace Nosql_Neo4j; async dùng hậu tố Async. Cypher tham số hóa, ID nghiệp vụ ổn định.
+Repository không trả HTTP/View, service không phụ thuộc Controller/HttpContext khi không cần thiết.
+Các model repository đang có giữ nguyên; service ánh xạ sang ViewModel.
 
-Cypher tham số hóa; ID nghiệp vụ ổn định, không internal node ID. Không commit secret. Biến cấu hình Neo4j dự kiến: Neo4j__Uri, Neo4j__Username, Neo4j__Password; chưa có code kết nối đọc chúng.
+## Fork và PR
 
-## PR và thay đổi
+Nhánh feature/NEO4-13-shapes-mvc, commit NEO4-13: add shape search.
+Dùng templates/pull-request.md. Không commit bin/, obj/, .user hoặc secret.
+Trước merge: build, kiểm tra GET/POST/validation/antiforgery/quyền và dữ liệu thật, người khác review.
+Đổi route/model/interface/schema: dùng templates/structure-change.md, đồng bộ mvc.md/template và báo người bị ảnh hưởng.
 
-Nhánh: feature/NEO4-13-shapes-pages; commit: NEO4-13: add shape search page. Dùng templates/pull-request.md. Không commit bin/, obj/, .user hay secret.
-
-Trước merge: build thành công, kiểm tra GET/POST/validation/antiforgery/quyền và dữ liệu thật, một người khác review. Done cần commit/PR và bằng chứng kiểm tra.
-
-Thay route/handler/model/interface: dùng templates/structure-change.md; cập nhật pages.md và template cùng PR, thống nhất với người bị ảnh hưởng trước merge.
-
-Demo: Vỷ tra cứu/đồ thị; Tuấn CSDL và luyện tập/chấm điểm; Tín so sánh chữ nhật/thoi.
+Demo: Vỷ tra cứu/đồ thị; Tuấn CSDL/luyện tập; Tín so sánh.

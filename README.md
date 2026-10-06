@@ -1,6 +1,6 @@
 # Nosql-Neo4j
 
-Ứng dụng học kiến thức tứ giác với ASP.NET Core .NET 10 Razor Pages và Neo4j. Đây là bản core đọc dữ liệu, chưa phải ứng dụng đầy đủ.
+Ứng dụng học kiến thức tứ giác với ASP.NET Core .NET 10 MVC với Controller và Razor Views và Neo4j. Đây là bản core đọc dữ liệu, chưa phải ứng dụng đầy đủ.
 
 ## Chạy local
 
@@ -21,4 +21,4 @@ Fork repository này về tài khoản cá nhân, clone fork và thêm upstream 
 - Vỷ: tra cứu, tìm kiếm, đồ thị.
 - Tín: so sánh và hướng dẫn sử dụng.
 
-Xem [CONTRIBUTE.md](CONTRIBUTE.md), [cấu trúc trang](pages.md) và [bàn giao core](docs/core-handoff.md). Không commit `.env`; chỉ chia sẻ `.env.example`. Chức năng xác thực, câu hỏi, luyện tập, quản trị và nguồn/người duyệt chưa hoàn tất.
+Xem [CONTRIBUTE.md](CONTRIBUTE.md), [cấu trúc MVC](mvc.md) và [bàn giao core](docs/core-handoff.md). Không commit `.env`; chỉ chia sẻ `.env.example`. Chức năng xác thực, câu hỏi, luyện tập, quản trị và nguồn/người duyệt chưa hoàn tất.

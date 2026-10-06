@@ -57,7 +57,7 @@ public interface IPracticeService
     // null: không có/không thuộc chủ. Exception nghiệp vụ: đã nộp/hết hạn.
     Task<AttemptPaperVm?> GetPaperAsync(string id, CancellationToken ct);
     Task<AttemptResultVm?> SubmitAsync(string id, SubmitAttemptInput input, CancellationToken ct);
-    // Exception nghiệp vụ: chưa nộp/hết hạn. Xử lý điều hướng theo pages.md.
+    // Exception nghiệp vụ: chưa nộp/hết hạn. Xử lý điều hướng theo mvc.md.
     Task<AttemptResultVm?> GetResultAsync(string id, CancellationToken ct);
 }
 public sealed class DomainValidationException : Exception

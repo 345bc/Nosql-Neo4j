@@ -2,6 +2,10 @@ using Neo4j.Driver;
 using Nosql_Neo4j.Configuration;
 using Nosql_Neo4j.Repositories;
 using Nosql_Neo4j.Services;
+using Nosql_Neo4j.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Threading.RateLimiting;
 
 
 
@@ -13,6 +17,31 @@ builder.AddLocalNeo4jEnv();
 // Add services to the container.
 builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute()));
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.Cookie.Name = "NosqlNeo4j.Session";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.SlidingExpiration = false;
+        options.EventsType = typeof(AccountCookieEvents);
+    });
+builder.Services.AddScoped<AccountCookieEvents>();
+builder.Services.AddScoped<IPasswordHasher<UserAccount>, PasswordHasher<UserAccount>>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<AccountService>();
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+    options.AddPolicy("login", context =>
+        RateLimitPartition.GetFixedWindowLimiter(context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            _ => new FixedWindowRateLimiterOptions
+            { PermitLimit = 10, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
+});
 
 builder.Services.AddSingleton<IDriver>(_ =>
 {
@@ -43,6 +72,16 @@ await app.Services
     .GetRequiredService<IDriver>()
     .VerifyConnectivityAsync();
 
+var createUserIndex = Array.IndexOf(args, "--create-user");
+if (createUserIndex >= 0)
+{
+    if (!app.Environment.IsDevelopment() || createUserIndex + 1 >= args.Length)
+        throw new InvalidOperationException("Dùng --create-user <username> trong Development.");
+    await LocalAccountCommand.RunAsync(app.Services, args[createUserIndex + 1]);
+    await app.DisposeAsync();
+    return;
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -54,7 +93,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
-
+app.UseRateLimiter();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();

@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Kết quả so sánh";
+    var s1 = ViewBag.Shape1;
+    var s2 = ViewBag.Shape2;
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">So sánh đối chiếu chi tiết</h2>
+    <hr />
+
+    <div class="row">
+        <!-- Hàm cục bộ hiển thị từng khối nội dung -->
+        @{
+            void RenderShapeBlock(dynamic shape)
+            {
+                <div class="card bg-light h-100 shadow-sm">
+                    <div class="card-header fw-bold text-center text-white bg-primary fs-5">
+                        @shape.Name
+                    </div>
+                    <div class="card-body">
+                        <h6 class="text-secondary border-bottom pb-1">📖 Định nghĩa:</h6>
+                        <ul class="mb-3 text-muted">
+                            @foreach(var item in shape.Definitions) { <li>@item</li> }
+                        </ul>
+
+                        <h6 class="text-secondary border-bottom pb-1">⚙️ Tính chất & Dấu hiệu:</h6>
+                        <ul class="mb-3">
+                            @foreach(var item in shape.Properties) { <li>@item</li> }
+                            @foreach(var item in shape.Signs) { <li class="fst-italic text-info">@item</li> }
+                        </ul>
+
+                        <h6 class="text-secondary border-bottom pb-1">📐 Công thức:</h6>
+                        <ul>
+                            @foreach(var item in shape.Formulas) { <li><strong>@item</strong></li> }
+                            @if(shape.Formulas.Count == 0) { <li class="text-muted">Chưa có công thức.</li> }
+                        </ul>
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="col-md-6 mb-3">
+            @{ RenderShapeBlock(s1); }
+        </div>
+        <div class="col-md-6 mb-3">
+            @{ RenderShapeBlock(s2); }
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a href="/Compare" class="btn btn-secondary px-4 py-2">&larr; So sánh hình khác</a>
+    </div>
+</div>

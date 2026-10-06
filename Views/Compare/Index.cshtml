@@ -1,0 +1,50 @@
+@{
+    ViewData["Title"] = "So sánh Tứ giác";
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">So sánh đặc điểm hai loại tứ giác</h2>
+    <hr />
+
+    <form method="get" action="/Compare/Result" class="row g-3 mb-5 p-4 border rounded bg-light">
+        <!-- Ô chọn hình 1 -->
+        <div class="col-md-5">
+            <label for="shape1" class="form-label fw-bold">Chọn hình thứ nhất:</label>
+            <select name="shape1" id="shape1" class="form-select" required>
+                <option value="">-- Chọn hình --</option>
+                @if (ViewBag.Shapes != null)
+                {
+                    foreach (var shape in ViewBag.Shapes)
+                    {
+                        <option value="@shape.Value">@shape.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        
+        <!-- Ô chọn hình 2 -->
+        <div class="col-md-5">
+            <label for="shape2" class="form-label fw-bold">Chọn hình thứ hai:</label>
+            <select name="shape2" id="shape2" class="form-select" required>
+                <option value="">-- Chọn hình --</option>
+                @if (ViewBag.Shapes != null)
+                {
+                    foreach (var shape in ViewBag.Shapes)
+                    {
+                        <option value="@shape.Value">@shape.Text</option>
+                    }
+                }
+            </select>
+        </div>
+        
+        <div class="col-md-2 d-flex align-items-end">
+            <button type="submit" class="btn btn-primary w-100">So sánh</button>
+        </div>
+    </form>
+
+    <div id="comparison-result">
+        <div class="alert alert-info" role="alert">
+            Vui lòng chọn hai hình phía trên và bấm "So sánh" để xem chi tiết các đặc điểm giống và khác nhau.
+        </div>
+    </div>
+</div>

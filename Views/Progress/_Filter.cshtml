@@ -1,0 +1,25 @@
+@model PracticeReportViewModel
+<form method="get" class="row g-3 mb-4">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    <div class="col-md-4"><label for="TopicId" class="form-label">Chủ đề</label>
+        <select name="TopicId" id="TopicId" class="form-select">
+            <option value="">Tất cả chủ đề</option>
+            @foreach (var topic in Model.Topics)
+            { <option value="@topic.Id" selected="@(Model.Filter.TopicId == topic.Id)">@topic.Name</option> }
+        </select>
+    </div>
+    <div class="col-md-3"><label for="From" class="form-label">Từ ngày (giờ Việt Nam)</label>
+        <input id="From" name="From" type="date" value="@(Model.Filter.From?.ToString("yyyy-MM-dd"))" class="form-control" /></div>
+    <div class="col-md-3"><label for="To" class="form-label">Đến hết ngày</label>
+        <input id="To" name="To" type="date" value="@(Model.Filter.To?.ToString("yyyy-MM-dd"))" class="form-control" /></div>
+    @if (Model.ShowDemo)
+    {
+        <div class="col-md-4"><label for="Demo" class="form-label">Loại kết quả</label>
+            <select id="Demo" name="Demo" class="form-select">
+                <option value="false" selected="@(!Model.Filter.Demo)">Chính thức</option>
+                <option value="true" selected="@(Model.Filter.Demo)">Chạy thử</option>
+            </select></div>
+    }
+    <div class="col-auto align-self-end"><button class="btn btn-primary" type="submit">Lọc kết quả</button></div>
+</form>
+@if (Model.Filter.Demo) { <p class="alert alert-warning">Đang xem kết quả chạy thử bằng câu hỏi nháp.</p> }

@@ -35,6 +35,8 @@ builder.Services.AddScoped<IPasswordHasher<UserAccount>, PasswordHasher<UserAcco
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<AccountService>();
 builder.Services.AddScoped<IPracticeRepository, PracticeRepository>();
+builder.Services.AddScoped<PracticeReportRepository>();
+builder.Services.AddScoped<IPracticeReportService, PracticeReportService>();
 builder.Services.AddScoped<IPracticeService, PracticeService>();
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddRateLimiter(options =>

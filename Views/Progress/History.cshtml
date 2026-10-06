@@ -1,0 +1,30 @@
+@model PracticeReportViewModel
+@{ ViewData["Title"] = "Lịch sử luyện tập"; }
+<h1 class="h2">Lịch sử luyện tập</h1>
+<p>Các lượt bạn đã nộp. Bộ lọc ngày áp dụng theo thời điểm nộp bài.</p>
+<partial name="_Filter" model="Model" />
+@if (Model.History is { } history)
+{
+    @if (history.Total == 0) { <p>Chưa có lượt luyện tập phù hợp.</p> }
+    else
+    {
+        <p>@history.Total lượt luyện tập.</p>
+        <div class="table-responsive"><table class="table table-striped">
+            <thead><tr><th>Nộp lúc (giờ Việt Nam)</th><th>Chủ đề</th><th>Điểm</th><th>Kết quả</th></tr></thead>
+            <tbody>@foreach (var row in history.Rows)
+            {
+                <tr><td>@row.SubmittedAt.ToOffset(TimeSpan.FromHours(7)).ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@(Model.Topics.FirstOrDefault(t => t.Id == row.TopicId)?.Name ?? row.TopicId ?? "Tổng hợp")</td>
+                    <td>@row.Score/10</td><td><a asp-controller="Practice" asp-action="Result" asp-route-id="@row.Id">Xem bài và lời giải</a></td></tr>
+            }</tbody>
+        </table></div>
+        <nav aria-label="Trang lịch sử" class="d-flex gap-3 align-items-center">
+            @if (history.Page > 1)
+            { <a asp-action="History" asp-route-page="@(history.Page - 1)" asp-route-topicId="@Model.Filter.TopicId" asp-route-from="@(Model.Filter.From?.ToString("yyyy-MM-dd"))" asp-route-to="@(Model.Filter.To?.ToString("yyyy-MM-dd"))" asp-route-demo="@Model.Filter.Demo">Trang trước</a> }
+            <span>Trang @history.Page / @((history.Total + history.PageSize - 1) / history.PageSize)</span>
+            @if ((long)history.Page * history.PageSize < history.Total)
+            { <a asp-action="History" asp-route-page="@(history.Page + 1)" asp-route-topicId="@Model.Filter.TopicId" asp-route-from="@(Model.Filter.From?.ToString("yyyy-MM-dd"))" asp-route-to="@(Model.Filter.To?.ToString("yyyy-MM-dd"))" asp-route-demo="@Model.Filter.Demo">Trang sau</a> }
+        </nav>
+    }
+}
+<a asp-controller="Practice" asp-action="Index" class="btn btn-primary mt-3">Luyện tập tiếp</a>

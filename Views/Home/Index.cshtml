@@ -1,8 +1,67 @@
-@{
-    ViewData["Title"] = "Home page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@{ViewData["Title"]="Khám phá tứ giác"; Layout="_ShapesLayout";}
+<section class="hero">
+<div>
+<span class="eyebrow">HÌNH HỌC • TỨ GIÁC</span>
+<h1>Mỗi hình là một<br />mối liên hệ.</h1>
+<p>Hiểu định nghĩa, khám phá tính chất và nhìn thấy cách sáu loại tứ giác kết nối với nhau.</p>
+<div class="actions">
+<a class="button" asp-controller="Shapes" asp-action="Index">Khám phá kiến thức <span aria-hidden="true">→</span>
+</a>
+<a class="button secondary" asp-controller="Shapes" asp-action="Graph">Xem đồ thị phân loại</a>
 </div>
+<div class="hero-stats">
+<span>
+<strong>06</strong> loại tứ giác</span>
+<span>
+<strong>05</strong> nhóm kiến thức</span>
+<span>
+<strong>IS_A</strong> quan hệ phân loại</span>
+</div>
+</div>
+<div class="hero-art" aria-hidden="true">
+<svg viewBox="0 0 500 430">
+<g class="art-grid">
+<path d="M0 86H500M0 172H500M0 258H500M0 344H500M100 0V430M200 0V430M300 0V430M400 0V430" />
+</g>
+<polygon class="art-back" points="70,125 235,50 430,270 265,360" />
+<polygon class="art-front" points="110,125 320,125 320,335 110,335" />
+<path class="art-diagonal" d="M110 125L320 335M320 125L110 335" />
+<g class="art-dots">
+<circle cx="110" cy="125" r="7"/>
+<circle cx="320" cy="125" r="7"/>
+<circle cx="320" cy="335" r="7"/>
+<circle cx="110" cy="335" r="7"/>
+</g>
+<text x="90" y="110">A</text>
+<text x="329" y="110">B</text>
+<text x="329" y="360">C</text>
+<text x="90" y="360">D</text>
+</svg>
+<span class="art-caption">Hình vuông ⊂ Hình chữ nhật</span>
+</div>
+</section>
+<section class="section-heading">
+<div>
+<span class="eyebrow">BẮT ĐẦU TỪ ĐÂU?</span>
+<h2>Từ kiến thức đến kết nối</h2>
+</div>
+<p>Hai cách khám phá cùng một hệ kiến thức.</p>
+</section>
+<div class="feature-grid">
+<a class="feature-card" asp-controller="Shapes" asp-action="Index">
+<span class="feature-number">01</span>
+<h3>Tra cứu & tìm kiếm</h3>
+<p>Tìm theo tên hoặc bí danh, có dấu hay không dấu. Đọc định nghĩa, tính chất, dấu hiệu, công thức và ví dụ.</p>
+<span class="text-link">Mở thư viện →</span>
+</a>
+<a class="feature-card" asp-controller="Shapes" asp-action="Graph">
+<span class="feature-number">02</span>
+<h3>Đồ thị phân loại</h3>
+<p>Theo mũi tên từ hình con đến hình cha. Khám phá hai đường từ hình vuông về tứ giác.</p>
+<span class="text-link">Khám phá quan hệ →</span>
+</a>
+</div>
+<aside class="convention">
+<strong>Quy ước trong ứng dụng</strong>
+<p>@Nosql_Neo4j.Services.ShapeService.Convention</p>
+</aside>

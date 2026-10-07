@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="Nosql-Neo4j.csproj" />
+  <Project Path="tests/Shapes.Tests/Shapes.Tests.csproj" />
 </Solution>

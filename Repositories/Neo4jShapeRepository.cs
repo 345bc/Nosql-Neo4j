@@ -49,7 +49,7 @@ public sealed class Neo4jShapeRepository(Neo4jConnection connection) : IKnowledg
                     MATCH (s:Shape) WHERE s.status=$status
                     RETURN coalesce(s.id,s.code) AS id,s.name AS name,coalesce(s.aliases,[]) AS aliases,
                       coalesce(s.imageUrl,'') AS imageUrl ORDER BY id LIMIT 101
-                    """, new { status = "DRAFT" });
+                    """, new { status = "PUBLISHED" });
                 var shapes = await cursor.ToListAsync(r => new ShapeRecord(ShapeIds.Canonical(r["id"].As<string>()), r["name"].As<string>(), r["aliases"].As<List<string>>().ToArray(), SafeImage(r["imageUrl"].As<string>()) ?? ShapeIds.Illustration(r["id"].As<string>())));
                 if (shapes.Count > 100) throw new DomainValidationException("GRAPH_LIMIT", "Tối đa 100 hình.", new Dictionary<string, string[]> { { "", ["Dữ liệu vượt giới hạn 100 hình."] } });
                 ct.ThrowIfCancellationRequested();

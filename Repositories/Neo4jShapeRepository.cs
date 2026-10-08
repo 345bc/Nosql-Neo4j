@@ -8,7 +8,7 @@ public sealed class Neo4jOptions
     public string Uri { get; set; } = "bolt://localhost:7687";
     public string Username { get; set; } = "neo4j";
     public string Password { get; set; } = "";
-    public string Database { get; set; } = "neo4j";
+    public string Database { get; set; } = "nosql-neo4j";
 }
 public sealed class Neo4jConnection : IAsyncDisposable, IDisposable
 {

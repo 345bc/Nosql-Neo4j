@@ -49,7 +49,7 @@ public sealed class Neo4jShapeRepository(Neo4jConnection connection) : IKnowledg
                     MATCH (s:Shape) WHERE s.status=$status
                     RETURN coalesce(s.id,s.code) AS id,s.name AS name,coalesce(s.aliases,[]) AS aliases,
                       coalesce(s.imageUrl,'') AS imageUrl ORDER BY id LIMIT 101
-                    """, new { status = "PUBLISHED" });
+                    """, new { status = "DRAFT" });
                 var shapes = await cursor.ToListAsync(r => new ShapeRecord(ShapeIds.Canonical(r["id"].As<string>()), r["name"].As<string>(), r["aliases"].As<List<string>>().ToArray(), SafeImage(r["imageUrl"].As<string>()) ?? ShapeIds.Illustration(r["id"].As<string>())));
                 if (shapes.Count > 100) throw new DomainValidationException("GRAPH_LIMIT", "Tối đa 100 hình.", new Dictionary<string, string[]> { { "", ["Dữ liệu vượt giới hạn 100 hình."] } });
                 ct.ThrowIfCancellationRequested();
@@ -61,9 +61,9 @@ public sealed class Neo4jShapeRepository(Neo4jConnection connection) : IKnowledg
                       coalesce(k.expression,'') AS expression,coalesce(k.variables,[]) AS variables,
                       coalesce(k.conditions,'') AS conditions,coalesce(k.unit,'') AS unit,
                       coalesce(k.propertyCode,'') AS propertyCode,coalesce(k.sourceTitle,'Nguồn nội dung') AS sourceTitle,
-                      coalesce(k.sourceRef,'') AS sourceRef ORDER BY id LIMIT 10001
+                      coalesce(k.sourceLocator,'') AS sourceLocator ORDER BY id LIMIT 10001
                     """, new { status = "PUBLISHED" });
-                var knowledge = await cursor.ToListAsync(r => new KnowledgeRecord(r["id"].As<string>(), ShapeIds.Canonical(r["shapeId"].As<string>()), r["type"].As<string>(), r["title"].As<string>(), r["content"].As<string>(), r["expression"].As<string>(), r["variables"].As<List<string>>().ToArray(), r["conditions"].As<string>(), r["unit"].As<string>(), r["propertyCode"].As<string>(), r["sourceTitle"].As<string>(), r["sourceRef"].As<string>()));
+                var knowledge = await cursor.ToListAsync(r => new KnowledgeRecord(r["id"].As<string>(), ShapeIds.Canonical(r["shapeId"].As<string>()), r["type"].As<string>(), r["title"].As<string>(), r["content"].As<string>(), r["expression"].As<string>(), r["variables"].As<List<string>>().ToArray(), r["conditions"].As<string>(), r["unit"].As<string>(), r["propertyCode"].As<string>(), r["sourceTitle"].As<string>(), r["sourceLocator"].As<string>()));
                 // Existing core schema stores knowledge on Shape and uses HAS_FORMULA.
                 // Never use this fallback for shapes that have KnowledgeItem links: a DRAFT item
                 // must not reappear through an old published copy on the Shape node.
@@ -74,7 +74,7 @@ public sealed class Neo4jShapeRepository(Neo4jConnection connection) : IKnowledg
                     RETURN coalesce(s.id,s.code) AS id,coalesce(s.definition,'') AS definition,
                       coalesce(s.properties,[]) AS properties,coalesce(s.recognitionSigns,[]) AS signs,
                       coalesce(s.examples,[]) AS examples,coalesce(s.convention,'') AS conditions,
-                      coalesce(s.sourceTitle,'Nguồn nội dung') AS sourceTitle,coalesce(s.sourceRef,'') AS sourceRef,
+                      coalesce(s.sourceTitle,'Nguồn nội dung') AS sourceTitle,coalesce(s.sourceLocator,'') AS sourceLocator,
                       collect(f{.id,.name,.expression,.variables,.conditions}) AS formulas
                     """, new { status = "PUBLISHED" });
                 foreach (var row in await cursor.ToListAsync())
@@ -86,7 +86,7 @@ public sealed class Neo4jShapeRepository(Neo4jConnection connection) : IKnowledg
                         for (var i = 0; i < texts.Length; i++)
                             if (!string.IsNullOrWhiteSpace(texts[i])) knowledge.Add(new KnowledgeRecord(
                                 $"LEGACY_{owner}_{type}_{i}", owner, type, type, texts[i], "", [], conditions, "", "",
-                                row["sourceTitle"].As<string>(), row["sourceRef"].As<string>()));
+                                row["sourceTitle"].As<string>(), row["sourceLocator"].As<string>()));
                     }
                     Add("DEFINITION", [row["definition"].As<string>()]);
                     Add("PROPERTY", row["properties"].As<List<string>>().ToArray());
@@ -97,7 +97,7 @@ public sealed class Neo4jShapeRepository(Neo4jConnection connection) : IKnowledg
                         string Value(string key) => formula.TryGetValue(key, out var v) ? v?.ToString() ?? "" : "";
                         knowledge.Add(new KnowledgeRecord(Value("id"), owner, "FORMULA", Value("name"), Value("expression"),
                             Value("expression"), [Value("variables")], Value("conditions"), "", "",
-                            row["sourceTitle"].As<string>(), row["sourceRef"].As<string>()));
+                            row["sourceTitle"].As<string>(), row["sourceLocator"].As<string>()));
                     }
                 }
                 if (knowledge.Count > 10000) throw new DatabaseUnavailableException("Vượt giới hạn đọc dữ liệu.");

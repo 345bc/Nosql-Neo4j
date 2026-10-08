@@ -4,42 +4,59 @@
       "id": "TU_GIAC",
       "code": "TuGiac",
       "name": "Tứ giác",
-      "aliases": ["tứ giác lồi", "quadrilateral"],
+      "aliases": [
+        "tứ giác lồi",
+        "quadrilateral"
+      ],
       "imageUrl": "/images/tu_giac.svg"
     },
     {
       "id": "HINH_THANG",
       "code": "HinhThang",
       "name": "Hình thang",
-      "aliases": ["trapezoid"],
+      "aliases": [
+        "trapezoid"
+      ],
       "imageUrl": "/images/hinh_thang.svg"
     },
     {
       "id": "HINH_BINH_HANH",
       "code": "HinhBinhHanh",
       "name": "Hình bình hành",
-      "aliases": ["bình hành", "parallelogram"],
+      "aliases": [
+        "bình hành",
+        "parallelogram"
+      ],
       "imageUrl": "/images/hinh_binh_hanh.svg"
     },
     {
       "id": "HINH_CHU_NHAT",
       "code": "HinhChuNhat",
       "name": "Hình chữ nhật",
-      "aliases": ["chữ nhật", "rectangle"],
+      "aliases": [
+        "chữ nhật",
+        "rectangle"
+      ],
       "imageUrl": "/images/hinh_chu_nhat.svg"
     },
     {
       "id": "HINH_THOI",
       "code": "HinhThoi",
       "name": "Hình thoi",
-      "aliases": ["thoi", "rhombus"],
+      "aliases": [
+        "thoi",
+        "rhombus"
+      ],
       "imageUrl": "/images/hinh_thoi.svg"
     },
     {
       "id": "HINH_VUONG",
       "code": "HinhVuong",
       "name": "Hình vuông",
-      "aliases": ["vuông", "square"],
+      "aliases": [
+        "vuông",
+        "square"
+      ],
       "imageUrl": "/images/hinh_vuong.svg"
     }
   ],
@@ -56,8 +73,8 @@
       "shapeId": "TU_GIAC",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#tu-giac",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#tu-giac"
     },
     {
       "id": "TuGiac_PROP_01",
@@ -71,8 +88,8 @@
       "shapeId": "TU_GIAC",
       "propertyCode": "FOUR_SIDES_VERTICES",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#tu-giac",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#tu-giac"
     },
     {
       "id": "TuGiac_PROP_02",
@@ -86,8 +103,8 @@
       "shapeId": "TU_GIAC",
       "propertyCode": "ANGLE_SUM_360",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#tu-giac",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#tu-giac"
     },
     {
       "id": "TuGiac_PROP_03",
@@ -101,8 +118,8 @@
       "shapeId": "TU_GIAC",
       "propertyCode": "TWO_DIAGONALS",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#tu-giac",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#tu-giac"
     },
     {
       "id": "HinhThang_DEF_01",
@@ -116,8 +133,8 @@
       "shapeId": "HINH_THANG",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thang",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thang"
     },
     {
       "id": "HinhThang_PROP_01",
@@ -131,8 +148,8 @@
       "shapeId": "HINH_THANG",
       "propertyCode": "AT_LEAST_ONE_PARALLEL_PAIR",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thang",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thang"
     },
     {
       "id": "HinhThang_PROP_02",
@@ -146,8 +163,8 @@
       "shapeId": "HINH_THANG",
       "propertyCode": "LEG_ANGLES_SUPPLEMENTARY",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thang",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thang"
     },
     {
       "id": "HinhBinhHanh_DEF_01",
@@ -161,8 +178,8 @@
       "shapeId": "HINH_BINH_HANH",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HinhBinhHanh_PROP_01",
@@ -176,8 +193,8 @@
       "shapeId": "HINH_BINH_HANH",
       "propertyCode": "TWO_PARALLEL_PAIRS",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HinhBinhHanh_PROP_02",
@@ -191,8 +208,8 @@
       "shapeId": "HINH_BINH_HANH",
       "propertyCode": "OPPOSITE_SIDES_EQUAL",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HinhBinhHanh_PROP_03",
@@ -206,8 +223,8 @@
       "shapeId": "HINH_BINH_HANH",
       "propertyCode": "OPPOSITE_ANGLES_EQUAL",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HinhBinhHanh_PROP_04",
@@ -221,8 +238,8 @@
       "shapeId": "HINH_BINH_HANH",
       "propertyCode": "ADJACENT_ANGLES_SUPPLEMENTARY",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HinhBinhHanh_PROP_05",
@@ -236,8 +253,8 @@
       "shapeId": "HINH_BINH_HANH",
       "propertyCode": "DIAGONALS_BISECT_EACH_OTHER",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HinhChuNhat_DEF_01",
@@ -251,8 +268,8 @@
       "shapeId": "HINH_CHU_NHAT",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-chu-nhat",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-chu-nhat"
     },
     {
       "id": "HinhChuNhat_PROP_01",
@@ -266,8 +283,8 @@
       "shapeId": "HINH_CHU_NHAT",
       "propertyCode": "FOUR_RIGHT_ANGLES",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-chu-nhat",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-chu-nhat"
     },
     {
       "id": "HinhChuNhat_PROP_02",
@@ -281,8 +298,8 @@
       "shapeId": "HINH_CHU_NHAT",
       "propertyCode": "DIAGONALS_EQUAL",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-chu-nhat",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-chu-nhat"
     },
     {
       "id": "HinhThoi_DEF_01",
@@ -296,8 +313,8 @@
       "shapeId": "HINH_THOI",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HinhThoi_PROP_01",
@@ -311,8 +328,8 @@
       "shapeId": "HINH_THOI",
       "propertyCode": "FOUR_EQUAL_SIDES",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HinhThoi_PROP_02",
@@ -326,8 +343,8 @@
       "shapeId": "HINH_THOI",
       "propertyCode": "DIAGONALS_PERPENDICULAR",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HinhThoi_PROP_03",
@@ -341,8 +358,8 @@
       "shapeId": "HINH_THOI",
       "propertyCode": "DIAGONALS_BISECT_ANGLES",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HinhVuong_DEF_01",
@@ -356,8 +373,8 @@
       "shapeId": "HINH_VUONG",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-vuong",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-vuong"
     },
     {
       "id": "HinhVuong_PROP_01",
@@ -371,8 +388,8 @@
       "shapeId": "HINH_VUONG",
       "propertyCode": "FOUR_EQUAL_SIDES",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-vuong",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-vuong"
     },
     {
       "id": "HinhVuong_PROP_02",
@@ -386,8 +403,8 @@
       "shapeId": "HINH_VUONG",
       "propertyCode": "FOUR_RIGHT_ANGLES",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-vuong",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-vuong"
     },
     {
       "id": "TuGiac_FORM_01",
@@ -395,14 +412,16 @@
       "title": "Chu vi",
       "content": "P = a + b + c + d",
       "expression": "P = a + b + c + d",
-      "variables": ["a,b,c,d: độ dài bốn cạnh"],
+      "variables": [
+        "a,b,c,d: độ dài bốn cạnh"
+      ],
       "conditions": "Tứ giác đơn không suy biến; các cạnh cùng đơn vị.",
       "unit": "Đơn vị độ dài",
       "shapeId": "TU_GIAC",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#tu-giac",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#tu-giac"
     },
     {
       "id": "TuGiac_FORM_02",
@@ -419,8 +438,8 @@
       "shapeId": "TU_GIAC",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#tu-giac",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#tu-giac"
     },
     {
       "id": "HinhThang_FORM_01",
@@ -428,14 +447,17 @@
       "title": "Chu vi",
       "content": "P = a + b + c + d",
       "expression": "P = a + b + c + d",
-      "variables": ["a,b: độ dài hai đáy", "c,d: độ dài hai cạnh bên"],
+      "variables": [
+        "a,b: độ dài hai đáy",
+        "c,d: độ dài hai cạnh bên"
+      ],
       "conditions": "Hai đáy song song; các độ dài cùng đơn vị.",
       "unit": "Đơn vị độ dài",
       "shapeId": "HINH_THANG",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thang",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thang"
     },
     {
       "id": "HinhThang_FORM_02",
@@ -452,8 +474,8 @@
       "shapeId": "HINH_THANG",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thang",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thang"
     },
     {
       "id": "HinhBinhHanh_FORM_01",
@@ -461,14 +483,16 @@
       "title": "Chu vi",
       "content": "P = 2 * (a + b)",
       "expression": "P = 2 * (a + b)",
-      "variables": ["a,b: độ dài hai cạnh kề"],
+      "variables": [
+        "a,b: độ dài hai cạnh kề"
+      ],
       "conditions": "a,b > 0; các độ dài cùng đơn vị.",
       "unit": "Đơn vị độ dài",
       "shapeId": "HINH_BINH_HANH",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HinhBinhHanh_FORM_02",
@@ -485,8 +509,8 @@
       "shapeId": "HINH_BINH_HANH",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HinhChuNhat_FORM_01",
@@ -494,14 +518,16 @@
       "title": "Chu vi",
       "content": "P = 2 * (a + b)",
       "expression": "P = 2 * (a + b)",
-      "variables": ["a,b: độ dài hai cạnh kề"],
+      "variables": [
+        "a,b: độ dài hai cạnh kề"
+      ],
       "conditions": "a,b > 0; các độ dài cùng đơn vị.",
       "unit": "Đơn vị độ dài",
       "shapeId": "HINH_CHU_NHAT",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-chu-nhat",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-chu-nhat"
     },
     {
       "id": "HinhChuNhat_FORM_02",
@@ -509,14 +535,16 @@
       "title": "Diện tích",
       "content": "S = a * b",
       "expression": "S = a * b",
-      "variables": ["a,b: độ dài hai cạnh kề"],
+      "variables": [
+        "a,b: độ dài hai cạnh kề"
+      ],
       "conditions": "a,b > 0; các độ dài cùng đơn vị.",
       "unit": "Đơn vị diện tích",
       "shapeId": "HINH_CHU_NHAT",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-chu-nhat",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-chu-nhat"
     },
     {
       "id": "HinhThoi_FORM_01",
@@ -524,14 +552,16 @@
       "title": "Chu vi",
       "content": "P = 4 * a",
       "expression": "P = 4 * a",
-      "variables": ["a: độ dài một cạnh"],
+      "variables": [
+        "a: độ dài một cạnh"
+      ],
       "conditions": "a > 0.",
       "unit": "Đơn vị độ dài",
       "shapeId": "HINH_THOI",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HinhThoi_FORM_02",
@@ -548,8 +578,8 @@
       "shapeId": "HINH_THOI",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HinhThoi_FORM_03",
@@ -557,14 +587,16 @@
       "title": "Diện tích theo đường chéo",
       "content": "S = d1 * d2 / 2",
       "expression": "S = d1 * d2 / 2",
-      "variables": ["d1,d2: độ dài hai đường chéo"],
+      "variables": [
+        "d1,d2: độ dài hai đường chéo"
+      ],
       "conditions": "d1,d2 > 0; các đường chéo vuông góc; độ dài cùng đơn vị.",
       "unit": "Đơn vị diện tích",
       "shapeId": "HINH_THOI",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HinhVuong_FORM_01",
@@ -572,14 +604,16 @@
       "title": "Chu vi",
       "content": "P = 4 * a",
       "expression": "P = 4 * a",
-      "variables": ["a: độ dài một cạnh"],
+      "variables": [
+        "a: độ dài một cạnh"
+      ],
       "conditions": "a > 0.",
       "unit": "Đơn vị độ dài",
       "shapeId": "HINH_VUONG",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-vuong",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-vuong"
     },
     {
       "id": "HinhVuong_FORM_02",
@@ -587,14 +621,16 @@
       "title": "Diện tích theo cạnh",
       "content": "S = a * a",
       "expression": "S = a * a",
-      "variables": ["a: độ dài một cạnh"],
+      "variables": [
+        "a: độ dài một cạnh"
+      ],
       "conditions": "a > 0.",
       "unit": "Đơn vị diện tích",
       "shapeId": "HINH_VUONG",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-vuong",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-vuong"
     },
     {
       "id": "HinhVuong_FORM_03",
@@ -602,14 +638,16 @@
       "title": "Diện tích theo đường chéo",
       "content": "S = d * d / 2",
       "expression": "S = d * d / 2",
-      "variables": ["d: độ dài một đường chéo"],
+      "variables": [
+        "d: độ dài một đường chéo"
+      ],
       "conditions": "d > 0.",
       "unit": "Đơn vị diện tích",
       "shapeId": "HINH_VUONG",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-vuong",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-vuong"
     },
     {
       "id": "TU_GIAC_RECOGNITION_01",
@@ -623,8 +661,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#tu-giac",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#tu-giac"
     },
     {
       "id": "TU_GIAC_EXAMPLE_01",
@@ -638,8 +676,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#tu-giac",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#tu-giac"
     },
     {
       "id": "HINH_THANG_RECOGNITION_01",
@@ -653,8 +691,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thang",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thang"
     },
     {
       "id": "HINH_THANG_EXAMPLE_01",
@@ -668,8 +706,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thang",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thang"
     },
     {
       "id": "HINH_BINH_HANH_RECOGNITION_01",
@@ -683,8 +721,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HINH_BINH_HANH_EXAMPLE_01",
@@ -698,8 +736,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-binh-hanh",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-binh-hanh"
     },
     {
       "id": "HINH_CHU_NHAT_RECOGNITION_01",
@@ -713,8 +751,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-chu-nhat",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-chu-nhat"
     },
     {
       "id": "HINH_CHU_NHAT_EXAMPLE_01",
@@ -728,8 +766,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-chu-nhat",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-chu-nhat"
     },
     {
       "id": "HINH_THOI_RECOGNITION_01",
@@ -743,8 +781,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HINH_THOI_EXAMPLE_01",
@@ -758,8 +796,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-thoi",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-thoi"
     },
     {
       "id": "HINH_VUONG_RECOGNITION_01",
@@ -773,8 +811,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-vuong",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-vuong"
     },
     {
       "id": "HINH_VUONG_EXAMPLE_01",
@@ -788,8 +826,8 @@
       "unit": "",
       "propertyCode": "",
       "sourceTitle": "Nhóm dự án — kiến thức mẫu v1 (chưa được giảng viên phê duyệt)",
-      "sourceRef": "docs/KNOWLEDGE.md#hinh-vuong",
-      "reviewStatus": "PENDING_TEACHER_REVIEW"
+      "reviewStatus": "PENDING_TEACHER_REVIEW",
+      "sourceLocator": "docs/KNOWLEDGE.md#hinh-vuong"
     }
   ],
   "edges": [

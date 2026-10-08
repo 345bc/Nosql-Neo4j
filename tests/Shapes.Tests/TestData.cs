@@ -1,16 +1,16 @@
 using System.Text.Json;
-using Nosql_Neo4j.Data;
 using Nosql_Neo4j.Models.Data;
 using Nosql_Neo4j.Repositories;
 namespace Shapes.Tests;
 
 public static class TestData
 {
+    private sealed record GraphFixture(ShapeRecord[] Shapes, KnowledgeRecord[] Knowledge, FixtureEdge[] Edges);
+    private sealed record FixtureEdge(string Child, string Parent);
     public static KnowledgeSnapshot Snapshot()
     {
-        var data = JsonSerializer.Deserialize<DemoSeeder.SeedData>(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Data", "knowledge.seed.json")), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
-        return new(data.Shapes.Select(s => new ShapeRecord(s.Id, s.Name, s.Aliases, s.ImageUrl)).ToArray(),
-            data.Knowledge.Select(k => new KnowledgeRecord(k.Id, k.ShapeId, k.Type, k.Title, k.Content, k.Expression, k.Variables, k.Conditions, k.Unit, k.PropertyCode, k.SourceTitle, k.SourceRef)).ToArray(),
+        var data = JsonSerializer.Deserialize<GraphFixture>(File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "Fixtures", "knowledge.json")), new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+        return new(data.Shapes, data.Knowledge,
             data.Edges.Select(e => new EdgeRecord(e.Child, e.Parent)).ToArray());
     }
 }

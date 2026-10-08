@@ -2,7 +2,6 @@ using Neo4j.Driver;
 using Microsoft.Extensions.Options;
 using Nosql_Neo4j.Configuration;
 using Nosql_Neo4j.Contracts;
-using Nosql_Neo4j.Data;
 using Nosql_Neo4j.Repositories;
 using Nosql_Neo4j.Services;
 var builder = WebApplication.CreateBuilder(args);
@@ -21,21 +20,6 @@ builder.Services.AddScoped<IShapeDiagnosticService, ShapeDiagnosticService>();
 builder.Services.AddScoped<IKnowledgeSnapshotRepository, Neo4jShapeRepository>();
 builder.Services.AddScoped<IShapeService, ShapeService>();
 var app = builder.Build();
-if (args.Contains("--seed-demo"))
-{
-    await using var scope = app.Services.CreateAsyncScope();
-    try
-    {
-        await DemoSeeder.SeedAsync(scope.ServiceProvider.GetRequiredService<Neo4jConnection>(), app.Environment.ContentRootPath);
-    }
-    catch (Exception ex) when (ex is Neo4jException or DatabaseUnavailableException or InvalidOperationException)
-    {
-        // A failed seed must not dump credentials or driver stack traces to the console.
-        Console.Error.WriteLine("Không thể seed demo. Kiểm tra instance đang chạy, mật khẩu, tên database đã tồn tại và database dành riêng cho demo. Nếu đã có dữ liệu khác, chọn database trống mới.");
-        Environment.ExitCode = 1;
-    }
-    await app.DisposeAsync(); return;
-}
 if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Error"); app.UseHsts(); app.UseHttpsRedirection(); }
 app.Use(async (context, next) =>
 {

@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Options;
 using Neo4j.Driver;
-using Nosql_Neo4j.Data;
 using Nosql_Neo4j.Repositories;
 using Nosql_Neo4j.Services;
 using Xunit;
@@ -45,10 +44,6 @@ public sealed class Neo4jTests
         finally { await (await session.RunAsync("MATCH(n) WHERE n.id IN $ids DETACH DELETE n", new { ids = new[] { id, id + "A", id + "K" } })).ConsumeAsync(); }
     }
     [Neo4jFact]
-    public async Task SeedRerunDoesNotOverwrite()
-    { await using var conn = Connection(); await DemoSeeder.SeedAsync(conn, FindRoot()); Assert.Equal(49, (await new Neo4jShapeRepository(conn).ReadPublishedAsync(default)).Knowledge.Length); }
-
-    [Neo4jFact]
     public async Task RealMvcDemoRoutesUseNeo4jAndKeepTeamPages()
     {
         await using var conn = Connection();
@@ -74,7 +69,7 @@ public sealed class Neo4jTests
         {
             await (await session.RunAsync("""
                 CREATE(s:Shape {id:$id,name:'Hình core thử nghiệm',status:'PUBLISHED',definition:'Định nghĩa core',
-                  properties:['Tính chất core'],recognitionSigns:['Dấu hiệu core'],examples:['Ví dụ core'],sourceRef:'test-source'})
+                  properties:['Tính chất core'],recognitionSigns:['Dấu hiệu core'],examples:['Ví dụ core'],sourceLocator:'test-source'})
                 CREATE(f:Formula {id:$formula,status:'PUBLISHED',name:'Công thức core',expression:'P = 4a',variables:'a: cạnh',conditions:'a > 0'})
                 CREATE(s)-[:HAS_FORMULA]->(f)
                 """, new { id, formula = id + "F" })).ConsumeAsync();
@@ -83,5 +78,5 @@ public sealed class Neo4jTests
         }
         finally { await (await session.RunAsync("MATCH(n) WHERE n.id IN $ids DETACH DELETE n", new { ids = new[] { id, id + "F" } })).ConsumeAsync(); }
     }
-    private static string FindRoot() { var p = new DirectoryInfo(AppContext.BaseDirectory); while (p is not null) { if (File.Exists(Path.Combine(p.FullName, "Nosql-Neo4j.csproj"))) return p.FullName; p = p.Parent; } throw new Exception("Không tìm thấy root."); }
+
 }

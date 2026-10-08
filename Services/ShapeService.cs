@@ -37,7 +37,7 @@ public sealed class ShapeService(IKnowledgeSnapshotRepository repository) : ISha
             own.Where(k => k.Type == "FORMULA").Select(k => new FormulaVm(k.Title, k.Expression,
                 string.Join("; ", k.Variables) + (k.Unit.Length > 0 ? $". Đơn vị: {k.Unit}" : ""), k.Conditions)).ToArray(),
             own.Where(k => k.Type == "EXAMPLE").Select(WithConditions).ToArray(),
-            used.Where(k => !string.IsNullOrWhiteSpace(k.SourceRef)).Select(k => new SourceVm(k.SourceTitle, k.SourceRef)).Distinct().ToArray(), Convention);
+            used.Where(k => !string.IsNullOrWhiteSpace(k.SourceLocator)).Select(k => new SourceVm(k.SourceTitle, k.SourceLocator)).Distinct().ToArray(), Convention);
     }
     public async Task<GraphVm> GetGraphAsync(string? fromId, string? toId, CancellationToken ct)
     {

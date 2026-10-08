@@ -1,0 +1,44 @@
+@model Nosql_Neo4j.Models.ViewModels.ShapeIndexViewModel
+@{ViewData["Title"]="Tra cứu kiến thức";}
+<div class="page-heading">
+<span class="eyebrow">THƯ VIỆN KIẾN THỨC</span>
+<h1>Khám phá các loại tứ giác</h1>
+<p>Một định nghĩa rõ ràng. Những tính chất có liên hệ. Công thức có điều kiện áp dụng.</p>
+</div>
+<form asp-controller="Shapes" asp-action="Index" method="get" class="search-form" data-loading-form>
+<label for="search">Tên hình hoặc bí danh</label>
+<div class="search-row">
+<input id="search" type="search" name="q" value="@Model.Q" maxlength="100" placeholder="Ví dụ: hình thoi, hinh chu nhat…"/>
+<button class="button" type="submit">Tìm kiếm</button>
+</div>
+<small>Không phân biệt hoa/thường hoặc dấu tiếng Việt. Tối đa 100 ký tự.</small>
+</form>
+<div asp-validation-summary="All" class="validation-summary" role="alert">
+</div>
+@if(Model.ErrorMessage is not null){<div class="error-state" role="alert">
+<h2>Không thể tải dữ liệu</h2>
+<p>@Model.ErrorMessage</p>
+<a class="button secondary" asp-controller="Shapes" asp-action="Index" asp-route-q="@Model.Q">Thử lại</a>
+</div>}
+@if(Model.Result is {} list){<div class="result-meta" role="status">
+<span>
+<strong>@list.TotalItems</strong> kết quả @(string.IsNullOrWhiteSpace(Model.Q)?"":"cho “"+Model.Q+"”")</span>
+<a asp-controller="Shapes" asp-action="Graph">Xem trên đồ thị →</a>
+</div>
+@if(list.Items.Length==0){<div class="empty-state">
+<h2>Không tìm thấy hình phù hợp</h2>
+<p>Thử tên ngắn hơn như “thoi”, hoặc xóa từ khóa để xem tất cả hình đã công bố.</p>
+<a asp-controller="Shapes" asp-action="Index" class="button secondary">Xem tất cả</a>
+</div>}
+<div class="shape-grid">@foreach(var shape in list.Items){<article class="shape-card">
+<div class="shape-picture">@if(shape.ImageUrl is not null){<img src="@shape.ImageUrl" alt="Minh họa @shape.Name" width="260" height="160" loading="lazy"/>}else{<span>Chưa có hình minh họa</span>}</div>
+<div class="shape-card-body">
+<span class="shape-id">@shape.Id</span>
+<h2>
+<a asp-controller="Shapes" asp-action="Details" asp-route-id="@shape.Id">@shape.Name</a>
+</h2>
+<p>@(shape.Aliases.Length>0?string.Join(" · ",shape.Aliases):"Tra cứu định nghĩa và tính chất")</p>
+<a class="text-link" asp-controller="Shapes" asp-action="Details" asp-route-id="@shape.Id">Đọc kiến thức →</a>
+</div>
+</article>}</div>
+@if(list.TotalItems>list.PageSize || list.Page>1){<nav class="pagination" aria-label="Phân trang">@if(list.Page>1){<a asp-controller="Shapes" asp-action="Index" asp-route-q="@Model.Q" asp-route-page="@(list.Page-1)">← Trang trước</a>}<span>Trang @list.Page / @Math.Max(1,(int)Math.Ceiling(list.TotalItems/(double)list.PageSize))</span>@if((long)list.Page*list.PageSize<list.TotalItems){<a asp-controller="Shapes" asp-action="Index" asp-route-q="@Model.Q" asp-route-page="@(list.Page+1)">Trang sau →</a>}</nav>}}

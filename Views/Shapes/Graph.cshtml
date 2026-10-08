@@ -1,0 +1,68 @@
+@model Nosql_Neo4j.Models.ViewModels.ShapeGraphViewModel
+@{ViewData["Title"]="Đồ thị phân loại";}
+<div class="page-heading">
+<span class="eyebrow">BẢN ĐỒ KIẾN THỨC</span>
+<h1>Nhìn thấy mối liên hệ</h1>
+<p>Mỗi mũi tên là một quan hệ “là một loại”. Chọn hai hình để khám phá đường phân loại.</p>
+</div>
+@if(Model.ErrorMessage is not null){<div class="error-state" role="alert">
+<h2>Không thể tải đồ thị</h2>
+<p>@Model.ErrorMessage</p>
+<a class="button secondary" asp-controller="Shapes" asp-action="Graph">Thử lại</a>
+</div>}
+@if(Model.Graph is {} graph){<form asp-controller="Shapes" asp-action="Graph" method="get" class="graph-form" data-loading-form>
+<div>
+<label for="from">Hình bắt đầu (hình con)</label>
+<select id="from" name="fromId">
+<option value="">Chọn hình bắt đầu</option>@foreach(var n in graph.Nodes){<option value="@n.Id" selected="@(Model.FromId==n.Id)">@n.Name</option>}</select>
+</div>
+<div>
+<label for="to">Hình đích (hình cha)</label>
+<select id="to" name="toId">
+<option value="">Chọn hình đích</option>@foreach(var n in graph.Nodes){<option value="@n.Id" selected="@(Model.ToId==n.Id)">@n.Name</option>}</select>
+</div>
+<button type="submit" class="button">Tìm đường đi</button>
+<a class="button secondary" asp-controller="Shapes" asp-action="Graph">Bỏ chọn</a>
+</form>}
+<div asp-validation-summary="All" class="validation-summary" role="alert">
+</div>
+@if(Model.Graph is {} g){<aside class="convention">
+<strong>Đọc đồ thị như thế nào?</strong>
+<p>@g.Convention</p>
+</aside>
+@if(g.Nodes.Length==0){<div class="empty-state">
+<h2>Chưa có hình được công bố</h2>
+<p>Khởi tạo dữ liệu Neo4j theo hướng dẫn chạy, hoặc yêu cầu quản trị viên công bố nội dung.</p>
+</div>}
+else{<section class="graph-panel" aria-labelledby="graph-heading">
+<div class="graph-panel-head">
+<h2 id="graph-heading">Cây phân loại tứ giác</h2>
+<span>@g.Nodes.Length hình · @g.Edges.Length quan hệ trực tiếp</span>
+</div>
+<div class="graph-scroll">
+<svg class="taxonomy" viewBox="0 0 @Model.CanvasWidth @Model.CanvasHeight" role="img" aria-labelledby="svg-title svg-desc">
+<title id="svg-title">Đồ thị phân loại tứ giác</title>
+<desc id="svg-desc">Mũi tên đi từ hình con ở dưới tới hình cha ở trên. Danh sách quan hệ và đường đi dạng văn bản nằm bên dưới.</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" />
+</marker>
+</defs>@foreach(var e in g.Edges){var a=Model.Positions[e.SourceId];var b=Model.Positions[e.TargetId];<g class="@(Model.PathEdges.Contains((e.SourceId,e.TargetId))?"graph-edge selected":"graph-edge")">
+<line x1="@a.X" y1="@(a.Y-24)" x2="@b.X" y2="@(b.Y+28)" marker-end="url(#arrow)"/>
+</g>}@foreach(var n in g.Nodes){var p=Model.Positions[n.Id];<a href="@Url.Action("Details", "Shapes", new { id = n.Id })" aria-label="Đọc kiến thức @n.Name">
+<g class="@(Model.PathNodes.Contains(n.Id)?"graph-node selected":"graph-node")">
+<rect x="@(p.X-92)" y="@(p.Y-24)" width="184" height="48" rx="12"/>
+<text x="@p.X" y="@(p.Y+6)" text-anchor="middle">@n.Name</text>
+</g>
+</a>}</svg>
+</div>
+<p class="graph-note">Bấm vào tên hình để mở chi tiết. Các đường được chọn có màu xanh đậm.</p>
+</section>
+@if(ViewData.ModelState.IsValid&&!string.IsNullOrWhiteSpace(Model.FromId)&&!string.IsNullOrWhiteSpace(Model.ToId)){<section class="path-panel" aria-live="polite">
+<h2>@g.Paths.Length đường phân loại</h2>@if(g.Paths.Length==0){<p>Không có đường IS_A theo chiều từ hình bắt đầu đến hình đích. Điều này không khẳng định hai hình không có tính chất chung.</p>}else{var names=g.Nodes.ToDictionary(n=>n.Id,n=>n.Name);<ol>@foreach(var path in g.Paths){<li>@string.Join(" → ",path.Select(id=>names[id])) @if(path.Length==1){<span>(Cùng một hình, 0 cạnh.)</span>}</li>}</ol>}</section>}
+<section class="relationship-list">
+<h2>Quan hệ dạng văn bản</h2>
+<p>IS_A chỉ thể hiện các quan hệ trực tiếp dưới đây.</p>
+<ul>@foreach(var e in g.Edges){var child=g.Nodes.Single(n=>n.Id==e.SourceId);var parent=g.Nodes.Single(n=>n.Id==e.TargetId);<li>
+<a asp-controller="Shapes" asp-action="Details" asp-route-id="@child.Id">@child.Name</a> <span>là một loại</span> <a asp-controller="Shapes" asp-action="Details" asp-route-id="@parent.Id">@parent.Name</a>.</li>}</ul>
+</section>}}

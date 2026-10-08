@@ -5,11 +5,11 @@ Luồng: trình duyệt → Controller → Service → Repository → Neo4j; Con
 
 ## Phân công
 
-| Người | Trách nhiệm |
-|---|---|
-| Tuấn | Neo4j/schema/seed/repository, xác thực, luyện tập/chấm điểm, tích hợp |
-| Vỷ | ShapesController, service, Views/Shapes cho tra cứu/tìm kiếm/đồ thị; SRS |
-| Tín | CompareController, service, Views/Compare; hướng dẫn sử dụng |
+| Người | Trách nhiệm                                                              |
+| ----- | ------------------------------------------------------------------------ |
+| Tuấn  | Neo4j/schema/seed/repository, xác thực, luyện tập/chấm điểm, tích hợp    |
+| Vỷ    | ShapesController, service, Views/Shapes cho tra cứu/tìm kiếm/đồ thị; SRS |
+| Tín   | CompareController, service, Views/Compare; hướng dẫn sử dụng             |
 
 Tín giữ phạm vi nhỏ hơn. Mỗi người làm trọn chức năng trên fork và gửi PR vào repo chung.
 

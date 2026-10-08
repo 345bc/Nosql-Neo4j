@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Nosql_Neo4j</title>
-    <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/mvc-site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Nosql-Neo4j.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -22,6 +22,12 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="shape" asp-action="Index">Tra cứu</a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="shape" asp-action="Graph">Đồ thị</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Practice" asp-action="Index">Luyện tập</a>

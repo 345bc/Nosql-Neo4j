@@ -50,8 +50,7 @@ builder.Services.AddRateLimiter(options =>
             { PermitLimit = 10, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
 });
 
-builder.Services.AddSingleton<IDriver>(_ =>
-builder.Services.AddControllersWithViews(options => options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute()));
+
 builder.Services.Configure<Neo4jOptions>(builder.Configuration.GetSection("Neo4j"));
 builder.Services.AddSingleton<IDriver>(sp =>
 {

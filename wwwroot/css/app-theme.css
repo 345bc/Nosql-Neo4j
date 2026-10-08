@@ -1,0 +1,68 @@
+:root {
+  --ink: #172b4d; --muted: #60718b; --green: #245edb; --light: #edf4ff;
+  --border: #dee7f3; --paper: #f7faff; --orange: #245edb;
+  --bs-primary: #245edb; --bs-primary-rgb: 36,94,219;
+  --bs-body-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --bs-body-color: #172b4d; --bs-body-bg: #f7faff;
+}
+html { font-size: 16px; scroll-padding-top: 110px; }
+.app-body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: var(--paper); color: var(--ink); font-family: var(--bs-body-font-family); line-height: 1.65; }
+a { color: var(--green); text-decoration: none; }
+a:hover { color: #1847ae; }
+.app-skip { position: fixed; top: -100px; left: 16px; z-index: 1100; background: white; padding: 12px 20px; border-radius: 8px; }
+.app-skip:focus { top: 12px; }
+.app-header { position: sticky; top: 0; z-index: 1030; background: #fff; border-bottom: 1px solid var(--border); box-shadow: 0 4px 24px #183b7110; }
+.app-nav { padding: 0; }
+.app-nav-shell { min-height: 88px; gap: 24px; }
+.app-brand { display: flex; gap: 12px; align-items: center; color: var(--ink); font-size: 22px; font-weight: 650; white-space: nowrap; letter-spacing: -.6px; }
+.app-brand:hover { text-decoration: none; }
+.app-brand strong { color: var(--green); }
+.app-brand small { display: block; font-size: 9px; font-weight: 600; letter-spacing: 1.5px; color: var(--muted); margin-top: 2px; }
+.app-brand-mark { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 13px; color: white; font-size: 36px; background: linear-gradient(135deg,#3d7aff,#2454c4); box-shadow: 0 5px 14px #245edb25; }
+.app-links { gap: 3px; }
+.app-links .nav-link { color: var(--muted); font-size: 14px; font-weight: 600; padding: 10px 12px !important; border-radius: 8px; transition: background .15s,color .15s; }
+.app-links .nav-link:hover, .app-links .nav-link.active { color: var(--green); background: var(--light); }
+.app-account { display: flex; align-items: center; }
+.app-user { display: flex; gap: 8px; align-items: center; border: 1px solid var(--border); background: #fff; font-size: 14px; }
+.app-avatar { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: var(--green); background: var(--light); font-weight: 700; }
+.app-user-name { max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
+.dropdown-menu { border-color: var(--border); border-radius: 12px; padding: 8px; box-shadow: 0 12px 35px #173b711c; }
+.dropdown-item { border-radius: 6px; padding: 9px 12px; font-size: 14px; }
+.dropdown-item:hover { background: var(--light); color: var(--green); }
+.app-main { flex: 1; width: 100%; padding-top: 48px; padding-bottom: 72px; }
+.app-main h1 { font-size: clamp(30px,4vw,44px); font-weight: 700; letter-spacing: -1.2px; margin: 0 0 16px; color: var(--ink); }
+.app-main h2, .app-main h3 { font-weight: 650; }
+.app-main > p, .app-main > form > p { color: var(--muted); }
+.btn, .button { border-radius: 9px; padding: 10px 18px; font-weight: 600; transition: background .15s,box-shadow .15s; }
+.btn-primary { --bs-btn-bg: #245edb; --bs-btn-border-color: #245edb; --bs-btn-hover-bg: #194ab8; --bs-btn-hover-border-color: #194ab8; --bs-btn-active-bg: #194ab8; --bs-btn-active-border-color: #194ab8; box-shadow: 0 4px 12px #245edb20; }
+.btn-outline-primary { --bs-btn-color: #245edb; --bs-btn-border-color: #bdcff4; --bs-btn-hover-bg: #245edb; --bs-btn-hover-border-color: #245edb; }
+.form-control, .form-select { border-color: #d6e1f0; border-radius: 9px; min-height: 46px; background-color: #fff; }
+.form-control:focus, .form-select:focus { border-color: #779feb; box-shadow: 0 0 0 4px #245edb14; }
+.form-label { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.alert { border-radius: 12px; padding: 18px 22px; }
+.card { border-color: var(--border); border-radius: 16px; box-shadow: 0 8px 28px #173b7106; }
+.table { --bs-table-bg: #fff; --bs-table-border-color: #e5ecf6; }
+.table th { color: var(--muted); font-size: 13px; background: var(--light); }
+.app-footer { background: #fff; border-top: 1px solid var(--border); }
+.app-footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding-top: 28px; padding-bottom: 28px; }
+.app-footer strong { font-size: 18px; color: var(--ink); }
+.app-footer strong span { color: var(--green); }
+.app-footer p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+.app-footer-meta { display: flex; gap: 24px; font-size: 12px; color: var(--muted); }
+.shapes-page .hero { padding: 22px 0 56px; }
+.shapes-page .hero h1 { font-size: clamp(36px,4.8vw,62px); line-height: 1.12; letter-spacing: -2px; }
+.shapes-page .hero-art { background: linear-gradient(145deg,#edf4ff,#e5eeff); border: 1px solid #d8e5fc; border-radius: 24px; }
+.shapes-page .art-grid { stroke: #d5e2fa; }
+.shapes-page .art-back { fill: #e0eaff; stroke: #a0bbed; }
+.shapes-page .art-front { fill: #c8dbff; stroke: #245edb; }
+.shapes-page .art-diagonal { stroke: #779ee6; }
+.shapes-page .button:hover { background: #194ab8; }
+.shapes-page .button.secondary { color: var(--green); border-color: #bed0f3; background: #fff; }
+.shapes-page .feature-card { border-radius: 16px; transition: border-color .15s,box-shadow .15s; }
+.shapes-page .feature-card:hover { border-color: #9ab8f2; box-shadow: 0 10px 30px #245edb0d; text-decoration: none; }
+.shapes-page .convention { border-radius: 0 12px 12px 0; }
+.shapes-page .shape-illustration, .shapes-page .graph-panel { background: var(--light); }
+:focus-visible { outline: 3px solid #3976e7; outline-offset: 3px; }
+@media (max-width:1199.98px) { .app-nav-shell { min-height: 76px; padding-top: 12px; padding-bottom: 12px; } #appNavigation { padding: 18px 0 8px; } .app-links { gap: 4px; } .app-account { margin-top: 16px; } }
+@media (max-width:767.98px) { .app-main { padding-top: 28px; padding-bottom: 44px; } .app-footer-inner { align-items: flex-start; flex-direction: column; gap: 16px; } .app-footer-meta { flex-wrap: wrap; gap: 12px; } .shapes-page .hero h1 { letter-spacing: -1px; } }
+@media (prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }

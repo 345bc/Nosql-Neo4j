@@ -2,15 +2,9 @@
 
 ## Chuẩn bị local
 
-1. Bật Neo4j, .env trỏ tới instance có database nosql-neo4j.
-2. Chạy `dotnet run --launch-profile https -- --setup-data`: schema/kiến thức, 60 câu DRAFT (10 mỗi chủ đề) và migration snapshot của lượt cũ. Seed không tự công bố hoặc ghi đè phiên bản câu hỏi hiện có. Nếu chỉ cần nâng cấp lượt từ bản cũ, dùng `--migrate-attempts` để không chạy lại seed kiến thức.
-3. Tạo tài khoản học viên từ terminal tương tác trong Development:
-
-```powershell
-dotnet run --launch-profile https -- --create-user tuan
-```
-
-Nhập mật khẩu 12–256 ký tự hai lần; màn hình không hiện mật khẩu. Lệnh tạo User ACTIVE vai trò USER, lưu hash PasswordHasher, không lưu mật khẩu thô. Tên đã có bị từ chối, lệnh không đặt lại mật khẩu hoặc hạ quyền người hiện có. Đây là công cụ local để cấp tài khoản, chưa phải màn hình quản trị tài khoản.
+1. Bật Neo4j, `.env` trỏ tới instance và đặt `Neo4j__Database=nosql-neo4j` (hoặc tên database của bạn). Tra cứu, luyện tập và lệnh dữ liệu dùng chung cấu hình này.
+2. Chạy `dotnet run --launch-profile https -- --migrate`: schema/kiến thức, 60 câu DRAFT (10 mỗi chủ đề), phần Vỷ và tài khoản demo_tuan. Seed không tự công bố hoặc ghi đè phiên bản câu hỏi hiện có. Nếu chỉ cần nâng cấp lượt từ bản cũ, dùng `--migrate-attempts` để không chạy lại seed kiến thức.
+3. Seed cấp tài khoản demo `demo_tuan` / `DemoTuan@2026!`, vai trò USER và trạng thái ACTIVE. Mật khẩu được lưu bằng hash; tài khoản đã có không bị đặt lại. Lệnh CLI cấp tài khoản riêng chưa được nối trong Program.cs hiện tại.
 
 4. Khởi động web: dotnet run --launch-profile https.
 5. /Account/Login để đăng nhập; /Practice để chọn chủ đề. Menu có Luyện tập, Lịch sử, Thống kê, Đổi mật khẩu và Đăng xuất POST.

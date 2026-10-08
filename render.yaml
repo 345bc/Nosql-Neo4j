@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: tu-giac-lab
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ASPNETCORE_HTTP_PORTS
+        value: "8080"
+      - key: PORT
+        value: "8080"
+      - key: ASPNETCORE_FORWARDEDHEADERS_ENABLED
+        value: "true"
+      - key: Neo4j__Uri
+        sync: false
+      - key: Neo4j__Username
+        value: neo4j
+      - key: Neo4j__Password
+        sync: false
+      - key: Neo4j__Database
+        value: neo4j

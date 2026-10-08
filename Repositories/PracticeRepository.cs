@@ -1,10 +1,13 @@
+using Nosql_Neo4j.Configuration;
 using System.Text.Json;
 using Neo4j.Driver;
 using Nosql_Neo4j.Models;
 namespace Nosql_Neo4j.Repositories;
 
-public sealed class PracticeRepository(IDriver driver) : IPracticeRepository
+public sealed class PracticeRepository(IDriver driver, IConfiguration configuration) : IPracticeRepository
 {
+    private readonly string _database = configuration.GetNeo4jDatabaseName();
+
     public Task<IReadOnlyList<QuestionSnapshot>> GetCandidatesAsync(string? topicId)
         => GetCandidatesByStatusAsync(topicId, "PUBLISHED");
 
@@ -13,7 +16,7 @@ public sealed class PracticeRepository(IDriver driver) : IPracticeRepository
 
     private async Task<IReadOnlyList<QuestionSnapshot>> GetCandidatesByStatusAsync(string? topicId, string status)
     {
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         return await session.ExecuteReadAsync<IReadOnlyList<QuestionSnapshot>>(async tx =>
         {
             var cursor = await tx.RunAsync("""
@@ -27,11 +30,6 @@ public sealed class PracticeRepository(IDriver driver) : IPracticeRepository
                 WITH q, v, topics[0] AS s
                 WHERE v.status = $status AND s.status = $status
                   AND ($topicId IS NULL OR s.id = $topicId)
-                  AND ($status <> 'PUBLISHED' OR
-                    (trim(coalesce(v.sourceTitle, '')) <> '' AND trim(coalesce(v.sourceLocator, '')) <> ''
-                     AND trim(coalesce(v.reviewedBy, '')) <> '' AND v.reviewedAt IS NOT NULL
-                     AND trim(coalesce(s.sourceTitle, '')) <> '' AND trim(coalesce(s.sourceLocator, '')) <> ''
-                     AND trim(coalesce(s.reviewedBy, '')) <> '' AND s.reviewedAt IS NOT NULL))
                 RETURN q.id AS questionId, v.id AS versionId, s.id AS topicId,
                        coalesce(v.prompt, '') AS prompt,
                        coalesce(v.optionA, '') AS a, coalesce(v.optionB, '') AS b,
@@ -55,7 +53,7 @@ public sealed class PracticeRepository(IDriver driver) : IPracticeRepository
 
     public async Task CreateAsync(AttemptState attempt)
     {
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         await session.ExecuteWriteAsync(async tx =>
         {
             var cursor = await tx.RunAsync("""
@@ -78,14 +76,14 @@ public sealed class PracticeRepository(IDriver driver) : IPracticeRepository
 
     public async Task<AttemptState?> ReadAsync(string id, string userId)
     {
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         return await session.ExecuteReadAsync<AttemptState?>(tx => ReadStateAsync(tx, id, userId));
     }
 
     public async Task<AttemptState?> UpdateLockedAsync(string id, string userId,
         Func<AttemptState, AttemptState> update)
     {
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         return await session.ExecuteWriteAsync<AttemptState?>(async tx =>
         {
             // Neo4j acquires a write lock before reading this dependent property.

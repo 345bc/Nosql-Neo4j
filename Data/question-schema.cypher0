@@ -1,7 +1,0 @@
-CREATE CONSTRAINT question_id_unique IF NOT EXISTS
-FOR (q:Question)
-REQUIRE q.id IS UNIQUE;
-
-CREATE CONSTRAINT question_version_id_unique IF NOT EXISTS
-FOR (v:QuestionVersion)
-REQUIRE v.id IS UNIQUE;

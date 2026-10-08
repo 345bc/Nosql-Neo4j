@@ -1,12 +1,15 @@
+using Nosql_Neo4j.Configuration;
 using Neo4j.Driver;
 using Nosql_Neo4j.Models;
 namespace Nosql_Neo4j.Repositories;
 
-public sealed class UserRepository(IDriver driver) : IUserRepository
+public sealed class UserRepository(IDriver driver, IConfiguration configuration) : IUserRepository
 {
+    private readonly string _database = configuration.GetNeo4jDatabaseName();
+
     public async Task<bool> ChangePasswordAsync(string id, string expectedStamp, string passwordHash, string newStamp)
     {
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         return await session.ExecuteWriteAsync(async tx =>
         {
             // Acquire the node lock before checking the stamp, so simultaneous changes cannot both succeed.
@@ -28,7 +31,7 @@ public sealed class UserRepository(IDriver driver) : IUserRepository
 
     private async Task<UserAccount?> FindAsync(string predicate, string value)
     {
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         return await session.ExecuteReadAsync<UserAccount?>(async tx =>
         {
             // predicate chỉ là một trong hai chuỗi cố định ở trên; value luôn tham số hóa.
@@ -47,7 +50,7 @@ public sealed class UserRepository(IDriver driver) : IUserRepository
 
     public async Task CreateAsync(UserAccount user)
     {
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         // Lệnh CLI tạo tài khoản local cũng thiết lập constraints trước khi tạo.
         await (await session.RunAsync("CREATE CONSTRAINT user_id_unique IF NOT EXISTS FOR (u:User) REQUIRE u.id IS UNIQUE")).ConsumeAsync();
         await (await session.RunAsync("CREATE CONSTRAINT user_username_unique IF NOT EXISTS FOR (u:User) REQUIRE u.normalizedUsername IS UNIQUE")).ConsumeAsync();

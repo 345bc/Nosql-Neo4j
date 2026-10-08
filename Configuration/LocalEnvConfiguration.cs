@@ -14,7 +14,7 @@ public static class LocalEnvConfiguration
         var values = new Dictionary<string, string?>();
         var allowedKeys = new HashSet<string>
         {
-            "Neo4j__Uri", "Neo4j__Username", "Neo4j__Password",  "Neo4j__Database"
+            "Neo4j__Uri", "Neo4j__Username", "Neo4j__Password", "Neo4j__Database"
         };
 
         var lineNumber = 0;

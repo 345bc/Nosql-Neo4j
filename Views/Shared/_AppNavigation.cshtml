@@ -1,0 +1,41 @@
+@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    string Active(string name, string? page = null) => controller == name && (page == null || action == page) ? "active" : "";
+}
+<header class="app-header">
+    <nav class="navbar navbar-expand-xl app-nav" aria-label="Điều hướng chính">
+        <div class="container app-nav-shell">
+            <a class="app-brand" asp-controller="Home" asp-action="Index"><span class="app-brand-mark" aria-hidden="true">◇</span><span>Tứ Giác <strong>Lab</strong><small>KHÁM PHÁ • KẾT NỐI • LUYỆN TẬP</small></span></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#appNavigation" aria-controls="appNavigation" aria-expanded="false" aria-label="Mở menu"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="appNavigation">
+                <ul class="navbar-nav app-links mx-xl-auto">
+                    <li class="nav-item"><a class="nav-link @Active("Home", "Index")" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link @(controller == "Shapes" && action != "Graph" ? "active" : "")" asp-controller="Shapes" asp-action="Index">Tra cứu</a></li>
+                    <li class="nav-item"><a class="nav-link @Active("Shapes", "Graph")" asp-controller="Shapes" asp-action="Graph">Đồ thị</a></li>
+                    <li class="nav-item"><a class="nav-link @Active("Compare")" asp-controller="Compare" asp-action="Index">So sánh</a></li>
+                    <li class="nav-item"><a class="nav-link @Active("Practice")" asp-controller="Practice" asp-action="Index">Luyện tập</a></li>
+                </ul>
+                <div class="app-account">
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <div class="dropdown">
+                            <button class="btn app-user dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="app-avatar" aria-hidden="true">@(User.Identity.Name?.FirstOrDefault().ToString().ToUpperInvariant() ?? "U")</span><span class="app-user-name">@User.Identity.Name</span></button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" asp-controller="Progress" asp-action="History">Lịch sử luyện tập</a></li>
+                                <li><a class="dropdown-item" asp-controller="Progress" asp-action="Statistics">Thống kê kết quả</a></li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="ChangePassword">Đổi mật khẩu</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><form asp-controller="Account" asp-action="Logout" method="post"><button type="submit" class="dropdown-item">Đăng xuất</button></form></li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-controller="Account" asp-action="Login">Đăng nhập <span aria-hidden="true">→</span></a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

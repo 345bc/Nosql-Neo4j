@@ -6,6 +6,8 @@ using Nosql_Neo4j.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Nosql_Neo4j.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
 
 var clock = new TestClock();
 var repo = new FakeRepository();
@@ -21,6 +23,37 @@ async Task Error(string code, Func<Task> action)
 {
     try { await action(); throw new Exception("Expected " + code); }
     catch (PracticeException e) { Check(e.Code == code, code); }
+}
+var databaseConfig = new ConfigurationBuilder().AddInMemoryCollection().Build();
+Check(databaseConfig.GetNeo4jDatabaseName() == "nosql-neo4j", "database default for existing configurations");
+databaseConfig["Neo4j:Database"] = "integration-demo";
+Check(databaseConfig.GetNeo4jDatabaseName() == "integration-demo", "configured database overrides default");
+databaseConfig["Neo4j:Database"] = " ";
+try
+{
+    databaseConfig.GetNeo4jDatabaseName();
+    throw new Exception("Expected blank database rejection");
+}
+catch (InvalidOperationException)
+{
+    Check(true, "blank database rejected instead of selecting a different database");
+}
+var envRoot = Path.Combine(Path.GetTempPath(), "neo4j-database-check-" + Guid.NewGuid().ToString("N"));
+Directory.CreateDirectory(envRoot);
+try
+{
+    File.WriteAllText(Path.Combine(envRoot, ".env"), "Neo4j__Database=integration-demo\n");
+    var envBuilder = WebApplication.CreateBuilder(new WebApplicationOptions
+        { EnvironmentName = "Development", ContentRootPath = envRoot, Args = [] });
+    envBuilder.AddLocalNeo4jEnv();
+    Check(envBuilder.Configuration.GetNeo4jDatabaseName() ==
+        (Environment.GetEnvironmentVariable("Neo4j__Database") ?? "integration-demo"),
+        "local env accepts database key with environment override priority");
+}
+finally
+{
+    File.Delete(Path.Combine(envRoot, ".env"));
+    Directory.Delete(envRoot);
 }
 await Error("INSUFFICIENT_QUESTIONS", async () => await service.CreateAsync("u1", null));
 repo.Candidates = Enumerable.Range(1, 10).Select(i => new QuestionSnapshot(
@@ -104,11 +137,25 @@ Check(userRepo.User.SecurityStamp != oldStamp && await accounts.AuthenticateAsyn
 Check(!await userRepo.ChangePasswordAsync("u", oldStamp, hash, "stale"), "stale concurrent password update rejected");
 Check(LocalDataCommand.SplitStatements("// comment;\nRETURN 'a;b'; RETURN 2; // end").Count() == 2,
     "Cypher splitter preserves quoted semicolons");
-var seedPath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "questions-draft.json");
-var seed = JsonSerializer.Deserialize<List<Dictionary<string, JsonElement>>>(File.ReadAllText(seedPath))!
-    .Select(r => r.ToDictionary(p => p.Key, p => (object)p.Value.GetString()!)).ToArray();
-LocalDataCommand.ValidateSeed(seed);
-Check(seed.Length == 60, "seed 60 valid questions across six topics");
+var demoSeed = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "migration", "seed-all.cypher"));
+var migrationQueries = LocalDataCommand.SplitStatements(demoSeed).ToArray();
+var questionsQuery = migrationQueries.Single(q => q.Contains("MERGE (q:Question {id: row.id})"));
+var questionIds = System.Text.RegularExpressions.Regex.Matches(questionsQuery, "(?<![A-Za-z])id: \"([^\"]+)\"")
+    .Select(m => m.Groups[1].Value).ToArray();
+var topicIds = System.Text.RegularExpressions.Regex.Matches(questionsQuery, "topicId: \"([^\"]+)\"")
+    .Select(m => m.Groups[1].Value).ToArray();
+Check(questionIds.Length == 60 && questionIds.Distinct().Count() == 60 &&
+    topicIds.GroupBy(id => id).Count() == 6 && topicIds.GroupBy(id => id).All(g => g.Count() == 10),
+    "consolidated seed contains 60 unique questions across six topics");
+var verificationQueries = LocalDataCommand.ReadVerificationStatements(demoSeed);
+Check(verificationQueries.Count > 0 && verificationQueries.All(q =>
+    q.TrimStart().StartsWith("MATCH ", StringComparison.Ordinal) && !q.Contains("MERGE ") && !q.Contains("SET ")),
+    "verification command selects read-only checks without replaying seed writes");
+var demoHash = System.Text.RegularExpressions.Regex.Match(demoSeed, "u\\.passwordHash = '([^']+)'").Groups[1].Value;
+Check(hasher.VerifyHashedPassword(user, demoHash, "DemoTuan@2026!") != PasswordVerificationResult.Failed,
+    "seed demo password hash accepted by application Identity hasher");
+Check(hasher.VerifyHashedPassword(user, demoHash, "wrong-password") == PasswordVerificationResult.Failed,
+    "seed demo rejects incorrect password");
 Console.WriteLine($"PASS: {count} checks.");
 
 sealed class TestClock : TimeProvider

@@ -1,37 +1,22 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content="Tra cứu kiến thức và đồ thị phân loại sáu loại tứ giác."/>
-<title>@ViewData["Title"] · Tứ Giác Lab</title>
-<link rel="stylesheet" href="~/css/shapes.css" asp-append-version="true"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tra cứu kiến thức và đồ thị phân loại sáu loại tứ giác." />
+    <title>@ViewData["Title"] · Tứ Giác Lab</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/shapes.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/app-theme.css" asp-append-version="true" />
 </head>
-<body>
-<a class="skip-link" href="#main">Đến nội dung chính</a>
-<header class="site-header">
-<div class="nav-shell">
-<a class="brand" asp-controller="Home" asp-action="Index">
-<span class="brand-mark" aria-hidden="true">◇</span> Tứ Giác<span class="brand-light">Lab</span>
-</a>
-<button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="main-nav">Menu</button>
-<nav id="main-nav" aria-label="Điều hướng chính">
-<a asp-controller="Home" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString()=="Home" && ViewContext.RouteData.Values["action"]?.ToString()=="Index"?"active":"")">Trang chủ</a>
-<a asp-controller="Shapes" asp-action="Index" class="@(ViewContext.RouteData.Values["controller"]?.ToString()=="Shapes" && ViewContext.RouteData.Values["action"]?.ToString() is "Index" or "Details"?"active":"")">Tra cứu</a>
-<a asp-controller="Shapes" asp-action="Graph" class="@(ViewContext.RouteData.Values["controller"]?.ToString()=="Shapes" && ViewContext.RouteData.Values["action"]?.ToString()=="Graph"?"active":"")">Đồ thị phân loại</a>
-<a asp-controller="Compare" asp-action="Index">So sánh</a>
-</nav>
-<span class="nav-tag">NEO4J × GEOMETRY</span>
-</div>
-</header>
-<main id="main" class="page-shell">@RenderBody()</main>
-<footer class="site-footer">
-<div>
-<strong>Tứ Giác Lab</strong>
-<span>Học hình học qua những mối liên hệ.</span>
-</div>
-<p>Nội dung mẫu do nhóm biên soạn · Cần giảng viên rà soát trước nghiệm thu.</p>
-</footer>
-<script src="~/js/site.js" asp-append-version="true" defer>
-</script>@await RenderSectionAsync("Scripts",required:false)</body>
+<body class="app-body shapes-page">
+    <a class="app-skip" href="#main">Đến nội dung chính</a>
+    <partial name="_AppNavigation" />
+    <main id="main" class="page-shell app-main">@RenderBody()</main>
+    <partial name="_AppFooter" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
 </html>

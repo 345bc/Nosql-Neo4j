@@ -72,23 +72,28 @@ await app.Services
     .GetRequiredService<IDriver>()
     .VerifyConnectivityAsync();
 
-var createUserIndex = Array.IndexOf(args, "--create-user");
-if (args.Contains("--setup-data") || args.Contains("--verify-data") || args.Contains("--migrate-attempts"))
+// Data commands run once and exit; no HTTP server is started.
+var dataCommands = new[] { "--migrate", "--verify-data", "--migrate-attempts" };
+var requestedDataCommands = dataCommands.Where(args.Contains).ToArray();
+if (requestedDataCommands.Length > 0)
 {
-    if (!app.Environment.IsDevelopment()) throw new InvalidOperationException("Công cụ dữ liệu local chỉ chạy trong Development.");
+    if (!app.Environment.IsDevelopment())
+        throw new InvalidOperationException("Công cụ dữ liệu local chỉ chạy trong Development.");
+    if (requestedDataCommands.Length != 1)
+        throw new InvalidOperationException("Chỉ chọn một lệnh dữ liệu mỗi lần chạy.");
     var driver = app.Services.GetRequiredService<IDriver>();
-    if (args.Contains("--setup-data")) await LocalDataCommand.SetupAsync(driver, app.Environment.ContentRootPath);
-    else if (args.Contains("--migrate-attempts")) await LocalDataCommand.MigrateAttemptsAsync(driver);
-    await LocalDataCommand.VerifyAsync(driver);
-    await app.DisposeAsync();
-    return;
-}
-if (createUserIndex >= 0)
-{
-    if (!app.Environment.IsDevelopment() || createUserIndex + 1 >= args.Length)
-        throw new InvalidOperationException("Dùng --create-user <username> trong Development.");
-    await LocalAccountCommand.RunAsync(app.Services, args[createUserIndex + 1]);
-    await app.DisposeAsync();
+    try
+    {
+        if (args.Contains("--migrate"))
+            await LocalDataCommand.RunMigrationAsync(driver, app.Environment.ContentRootPath, app.Configuration);
+        else
+        {
+            if (args.Contains("--migrate-attempts"))
+                await LocalDataCommand.MigrateAttemptsAsync(driver, app.Configuration);
+            await LocalDataCommand.VerifyAsync(driver, app.Environment.ContentRootPath, app.Configuration);
+        }
+    }
+    finally { await app.DisposeAsync(); }
     return;
 }
 
@@ -113,7 +118,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Error"); app.UseHsts(); app.UseHttpsRedirection(); }
 app.Use(async (context, next) =>
 {
     context.Response.Headers["X-Content-Type-Options"] = "nosniff";
@@ -124,7 +128,5 @@ app.Use(async (context, next) =>
     await next();
 });
 app.UseStatusCodePagesWithReExecute("/Status", "?code={0}");
-app.UseRouting(); app.UseAuthorization(); app.MapStaticAssets();
-app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
 app.Run();
 public partial class Program;

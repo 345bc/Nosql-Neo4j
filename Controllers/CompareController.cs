@@ -1,3 +1,4 @@
+using Nosql_Neo4j.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Neo4j.Driver;
@@ -21,13 +22,10 @@ namespace Nosql_Neo4j.Controllers
         private readonly IDriver _driver;
         private readonly string _database;
 
-
-        public CompareController(IDriver driver, IConfiguration configuration) 
-        { 
+        public CompareController(IDriver driver, IConfiguration configuration)
+        {
             _driver = driver;
-            _database = configuration["Neo4j:Database"]
-        ?? throw new InvalidOperationException(
-            "Chưa cấu hình Neo4j:Database.");
+            _database = configuration.GetNeo4jDatabaseName();
         }
 
         public async Task<IActionResult> Index()

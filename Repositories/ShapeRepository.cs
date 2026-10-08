@@ -1,4 +1,5 @@
-﻿using Neo4j.Driver;
+using Nosql_Neo4j.Configuration;
+using Neo4j.Driver;
 using Nosql_Neo4j.Models;
 namespace Nosql_Neo4j.Repositories
 {
@@ -6,10 +7,10 @@ namespace Nosql_Neo4j.Repositories
     {
         private readonly IDriver _driver;
         private readonly string _database;
-        public ShapeRepository(IDriver driver,  IConfiguration configuration)
+        public ShapeRepository(IDriver driver, IConfiguration configuration)
         {
             _driver = driver;
-            _database = configuration["Neo4j:Database"] ?? "nosql-neo4j";
+            _database = configuration.GetNeo4jDatabaseName();
         }
 
         public Task<IReadOnlyList<ShapeSummary>> GetPublishedAsync()

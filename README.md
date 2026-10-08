@@ -101,6 +101,12 @@ Tạo lượt 10 câu không trùng; chụp phiên bản/nội dung; không đư
 
 Xem [luồng luyện tập](docs/practice.md), [bàn giao phần Tuấn](docs/tuan-handoff.md), [checklist tích hợp](docs/integration-checklist.md) và [vận hành CSDL](docs/database-operations.md). Nội dung PUBLISHED phải có nguồn/người duyệt; quản trị/công bố bằng giao diện chưa nằm trong bản này.
 
+## Deploy Docker lên Render
+
+Dùng `Dockerfile` (.NET 10) và `render.yaml` để chạy web trên Render với database Neo4j Aura.
+Xem [hướng dẫn deploy](docs/deploy-render.md) để nạp seed lên Aura và cấu hình biến môi trường.
+Docker image không chứa `.env` và không tự chạy migration.
+
 ## Kiểm thử local
 
 Neo4j phải bật và đã chạy `--migrate`. Dùng PowerShell 7 từ thư mục dự án:

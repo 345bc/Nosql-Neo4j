@@ -49,9 +49,9 @@ Chạy lệnh từ thư mục gốc project, thay URI/username/database theo c�
 | --- | --- | --- |
 | 1 | Constraint và index | Core, tài khoản, câu hỏi, lượt làm, audit |
 | 2 | 6 Shape, 6 IS_A | Danh sách hình, đồ thị phân loại |
-| 3 | Định nghĩa, tính chất, nhận biết, ví dụ; 10 Formula | Chi tiết hình và so sánh |
+| 3 | Định nghĩa, tính chất, nhận biết, ví dụ; 12 Formula (10 core, 2 bổ sung) | Chi tiết hình và so sánh |
 | 4 | 60 Question/QuestionVersion, 10 câu mỗi chủ đề | Luyện tập, chấm điểm |
-| 5 | 49 KnowledgeItem, 49 HAS_KNOWLEDGE; metadata minh họa | Phần tra cứu của Vỷ |
+| 5 | 63 KnowledgeItem, 63 HAS_KNOWLEDGE; metadata minh họa | Phần tra cứu của Vỷ |
 | 6–7 | Tổng số và truy vấn kiểm tra | Xác nhận cấu trúc sau nạp |
 
 `seed-all.cypher` là nguồn seed hiện tại của project. Bộ file Data cũ đã bỏ; bản tổng hợp chứa dữ liệu trực tiếp, không cần APOC, LOAD CSV hoặc JSON ngoài khi chạy. Chỉnh nội dung seed tại file này.
@@ -60,15 +60,15 @@ Chạy lệnh từ thư mục gốc project, thay URI/username/database theo c�
 
 ## Kết quả mong đợi trên database trống
 
-`shapes=6`, `classificationEdges=6`, `formulas=10`, `questions=60`, `questionVersions=60`, `knowledgeItems=49`, `knowledgeLinks=49`.
+`shapes=6`, `classificationEdges=6`, `formulas=12`, `questions=60`, `questionVersions=60`, `knowledgeItems=63`, `knowledgeLinks=63`.
 
 Các bảng lỗi phải rỗng. Bảng câu hỏi theo chủ đề có 6 dòng, mỗi dòng 10 câu. KnowledgeItem loại FORMULA thuộc mô hình Vỷ, không tạo thêm node Formula của core.
 
-Nội dung mới giữ DRAFT. Không tự công bố, tạo người duyệt giả hoặc lượt làm mẫu. Seed tạo tài khoản demo ở phần dưới. Lệnh CLI cấp tài khoản riêng chưa được nối trong Program.cs hiện tại. Trong Development, dùng luyện tập chạy thử để làm câu nháp; trang chính thức chỉ đọc PUBLISHED đủ metadata.
+Theo yêu cầu demo, seed chuyển mọi node DRAFT sang PUBLISHED và nội dung mới cũng là PUBLISHED; giữ demo=true và reviewStatus chưa duyệt, không tạo người/thời gian duyệt giả. Không tạo người duyệt giả hoặc lượt làm mẫu. Seed tạo tài khoản demo ở phần dưới. Lệnh CLI cấp tài khoản riêng chưa được nối trong Program.cs hiện tại. Trong Development, dùng luyện tập chạy thử để làm câu nháp; trang chính thức chỉ đọc PUBLISHED đủ metadata.
 
 ## Database đã có dữ liệu
 
-Chạy lại `--migrate` để bổ sung phần còn thiếu. Seed tổng hợp dùng MERGE/IF NOT EXISTS; không xóa dữ liệu hay ghi đè phiên bản câu đã tồn tại. Hình PUBLISHED/ARCHIVED không được bổ sung KnowledgeItem DRAFT để tránh ảnh hưởng nội dung công bố. Tổng số trên database đã có nội dung riêng có thể khác.
+Chạy lại `--migrate` để bổ sung phần còn thiếu. Seed tổng hợp dùng MERGE/IF NOT EXISTS; không xóa dữ liệu hay ghi đè phiên bản câu đã tồn tại. KnowledgeItem mới dùng cùng trạng thái PUBLISHED với Shape; dữ liệu ARCHIVED vẫn giữ nguyên. Tổng số trên database đã có nội dung riêng có thể khác.
 
 File chứa nhiều transaction, không bảo đảm toàn bộ file cùng thành công hoặc cùng rollback. Khi một câu lệnh báo lỗi, sửa nguyên nhân rồi chạy lại; xem kết quả cuối để phát hiện phần chưa nạp.
 
@@ -81,3 +81,7 @@ Nâng cấp snapshot lượt cũ từ stateJson vẫn cần lệnh `--migrate-at
 - Vai trò: USER; trạng thái: ACTIVE.
 
 Chạy seed/migration rồi đăng nhập tại `/Account/Login`. Seed lưu hash tương thích ASP.NET Core Identity, không lưu mật khẩu thô trong node. Chạy lại không đổi mật khẩu, vai trò hoặc trạng thái của tài khoản đã có. Nếu `demo_tuan` đã tồn tại với mật khẩu khác, mật khẩu mẫu này không thay mật khẩu cũ.
+
+## Dữ liệu bổ sung
+
+Bản hiện tại thêm 12 ví dụ (hai mỗi hình), công thức đường chéo hình chữ nhật và đường trung bình hình thang. Tổng sau nạp bộ mẫu: 63 KnowledgeItem, 12 Formula. Các nội dung mẫu được hiển thị PUBLISHED theo yêu cầu demo, nhưng chưa được giảng viên phê duyệt. Seed đồng bộ nguồn cũ sourceRef vào sourceLocator khi sourceLocator còn trống.

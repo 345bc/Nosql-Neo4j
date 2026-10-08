@@ -21,12 +21,12 @@ Project dùng một file seed duy nhất: [migration/seed-all.cypher](migration/
 
 ## Database mới: nạp một file duy nhất
 
-Dùng **[migration/seed-all.cypher](migration/seed-all.cypher)**. File có sẵn schema, core, 60 câu luyện tập, 49 KnowledgeItem của Vỷ và truy vấn kiểm tra; không cần chạy các file con trước hoặc sau nó.
+Dùng **[migration/seed-all.cypher](migration/seed-all.cypher)**. File có sẵn schema, core, 60 câu luyện tập, 63 KnowledgeItem (49 gốc của Vỷ và 14 bổ sung) và truy vấn kiểm tra; không cần chạy các file con trước hoặc sau nó.
 
 1. Tạo/chọn database ứng dụng trong Neo4j, cùng tên với `Neo4j__Database` trong `.env`. File seed không tạo database vật lý.
 2. Trong **Neo4j Browser → Settings**, bật **Enable multi statement query editor**. [Hướng dẫn Neo4j](https://neo4j.com/docs/browser/legacy/visual-tour/).
 3. Mở `migration/seed-all.cypher`, copy toàn bộ vào ô query, bấm **Run một lần**.
-4. Xem bảng tổng ở phần 6: `shapes=6`, `classificationEdges=6`, `formulas=10`, `questions=60`, `questionVersions=60`, `knowledgeItems=49`, `knowledgeLinks=49`.
+4. Xem bảng tổng ở phần 6: `shapes=6`, `classificationEdges=6`, `formulas=12`, `questions=60`, `questionVersions=60`, `knowledgeItems=63`, `knowledgeLinks=63`.
 5. Các truy vấn lỗi ở phần 7 phải trả 0 dòng. Bảng tổng câu theo chủ đề trả 6 dòng, mỗi chủ đề có 10 câu.
 
 File gồm nhiều câu lệnh được phân cách bằng `;`; chế độ multi statement cho phép gửi cả file với một lần Run. Mỗi câu lệnh có transaction riêng, nên nếu có lỗi cần sửa lỗi và chạy lại. File dùng MERGE/IF NOT EXISTS và giữ dữ liệu đã tồn tại; không xóa database. Phần core chỉ điền kiến thức còn thiếu trên hình DRAFT, câu hỏi đã tồn tại không bị ghi đè.
@@ -39,7 +39,7 @@ cypher-shell -a bolt://localhost:7687 -u neo4j -d nosql-neo4j -f migration/seed-
 
 Nhập mật khẩu Neo4j khi được hỏi. Thay URI, username và database bằng cấu hình của bạn.
 
-Seed tạo tài khoản demo_tuan, không tạo lượt làm giả, không nâng cấp snapshot lượt cũ và không tự công bố. Nội dung mới vẫn DRAFT. Chi tiết từng phần và cách xử lý database đã có core: [migration/README.md](migration/README.md).
+Seed tạo tài khoản demo_tuan, không tạo lượt làm giả, không nâng cấp snapshot lượt cũ và không tự công bố. Nội dung mẫu hiện dùng PUBLISHED theo yêu cầu demo, giữ thông tin chưa được giảng viên duyệt. Chi tiết từng phần và cách xử lý database đã có core: [migration/README.md](migration/README.md).
 
 Lệnh seed hiện tại là `--migrate`. Bộ nạp `--setup-data` và các file seed lẻ đã bỏ; không cần chạy chúng.
 
@@ -77,11 +77,13 @@ Mở [đăng nhập](https://localhost:7277/Account/Login), rồi [luyện tập
 
 Lịch sử/thống kê tự lấy từ các lượt đã nộp; không cần nạp một file seed riêng. Tạo tài khoản cũng không cần chạy một file Cypher riêng.
 
-## Vì sao nạp xong mà trang chính thức chưa có dữ liệu?
+## Trạng thái và nguồn của dữ liệu demo
 
-Các seed trong quy trình trên giữ kiến thức/câu hỏi ở DRAFT. Phần bổ sung Vỷ cũng là DRAFT, demo=true, chưa được giảng viên duyệt. Trang tra cứu `/Shapes` của Vỷ chỉ đọc PUBLISHED sau khi ghép code; nạp file bổ sung chưa làm nó hiển thị ngay. `/Practice` chính thức cũng chỉ dùng nội dung PUBLISHED đủ nguồn và thông tin duyệt.
+Seed hiện chuyển toàn bộ node có status DRAFT sang PUBLISHED theo yêu cầu demo. Sau nạp, sáu hình, các KnowledgeItem, Formula và QuestionVersion đều dùng PUBLISHED. Trang tra cứu cần dùng PUBLISHED cho tất cả truy vấn; không trộn truy vấn Shape DRAFT với KnowledgeItem PUBLISHED.
 
-`Shape` và `QuestionVersion` trong core dùng `sourceTitle/sourceLocator`; `KnowledgeItem` của Vỷ dùng `sourceTitle/sourceRef`. Đây là tên thuộc tính nguồn trong hai mô hình, không phải tên database. Việc ánh xạ nguồn cần thống nhất khi tích hợp. Xem [quy trình công bố và vận hành](docs/database-operations.md).
+Các node mẫu giữ demo=true và trạng thái chưa duyệt; seed không tạo người/thời gian duyệt giả. Luồng luyện tập chính thức vẫn yêu cầu đủ metadata nguồn và duyệt, nên việc đổi status không tự đáp ứng điều kiện này.
+
+Nguồn dùng sourceLocator cho cả core và KnowledgeItem. Seed điền từ sourceRef cũ nếu sourceLocator còn trống, không ghi đè nguồn đang có.
 
 ## Làm việc qua fork
 

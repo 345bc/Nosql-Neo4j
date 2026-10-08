@@ -1,7 +1,0 @@
-CREATE CONSTRAINT shape_id_unique IF NOT EXISTS
-FOR (s:Shape)
-REQUIRE s.id IS UNIQUE;
-
-CREATE CONSTRAINT formula_id_unique IF NOT EXISTS
-FOR (f:Formula)
-REQUIRE f.id IS UNIQUE;

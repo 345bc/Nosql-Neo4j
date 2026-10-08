@@ -1,0 +1,8 @@
+@model Nosql_Neo4j.Models.ViewModels.StatusViewModel
+@{ViewData["Title"]="Không thể mở trang"; Layout="_ShapesLayout";}
+<section class="empty-state">
+<span class="eyebrow">@Model.Status</span>
+<h1>@Model.Message</h1>
+<p>Quay về danh sách kiến thức để tiếp tục học.</p>
+<a class="button" asp-controller="Shapes" asp-action="Index">Tra cứu kiến thức</a>
+</section>

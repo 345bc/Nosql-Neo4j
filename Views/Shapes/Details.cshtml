@@ -1,0 +1,64 @@
+@model Nosql_Neo4j.Models.ViewModels.ShapeDetailsViewModel
+@{ViewData["Title"]=Model.Detail?.Summary.Name??"Chi tiết kiến thức";}
+<a class="back-link" asp-controller="Shapes" asp-action="Index">← Thư viện kiến thức</a>
+<div asp-validation-summary="All" class="validation-summary" role="alert">
+</div>
+@if(Model.ErrorMessage is not null){<div class="error-state" role="alert">
+<h1>Không thể tải kiến thức</h1>
+<p>@Model.ErrorMessage</p>
+<a class="button secondary" href="@Context.Request.Path">Thử lại</a>
+</div>}
+@if(Model.Detail is {} d){<section class="detail-hero">
+<div>
+<span class="eyebrow">@d.Summary.Id</span>
+<h1>@d.Summary.Name</h1>
+<p>@string.Join(" · ",d.Summary.Aliases)</p>
+<a class="button" asp-controller="Shapes" asp-action="Graph" asp-route-fromId="@d.Summary.Id" asp-route-toId="TU_GIAC">Xem quan hệ tới tứ giác →</a>
+</div>@if(d.Summary.ImageUrl is not null){<img src="@d.Summary.ImageUrl" alt="Minh họa @d.Summary.Name" width="300" height="185"/>}</section>
+<aside class="convention">
+<strong>Phạm vi và quy ước</strong>
+<p>@d.Convention</p>
+</aside>
+<div class="detail-layout">
+<nav class="toc" aria-label="Mục lục kiến thức">
+<span>NỘI DUNG</span>
+<a href="#definition">01 · Định nghĩa</a>
+<a href="#properties">02 · Tính chất</a>
+<a href="#recognition">03 · Dấu hiệu nhận biết</a>
+<a href="#formulas">04 · Công thức</a>
+<a href="#examples">05 · Ví dụ</a>
+<a href="#sources">Nguồn nội dung</a>
+</nav>
+<div class="knowledge-sections">
+<section id="definition" class="knowledge-section">
+<span class="section-number">01</span>
+<h2>Định nghĩa</h2>
+<p>@(d.Definition.Length>0?d.Definition:"Chưa có định nghĩa được công bố.")</p>
+</section>
+<section id="properties" class="knowledge-section">
+<span class="section-number">02</span>
+<h2>Tính chất</h2>@if(d.Properties.Length==0){<p>Chưa có tính chất được công bố.</p>}<ul>@foreach(var item in d.Properties){<li>@item</li>}</ul>
+</section>
+<section id="recognition" class="knowledge-section">
+<span class="section-number">03</span>
+<h2>Dấu hiệu nhận biết</h2>@if(d.RecognitionSigns.Length==0){<p>Chưa có dấu hiệu được công bố.</p>}<ul>@foreach(var item in d.RecognitionSigns){<li>@item</li>}</ul>
+</section>
+<section id="formulas" class="knowledge-section">
+<span class="section-number">04</span>
+<h2>Công thức</h2>@if(d.Formulas.Length==0){<p>Chưa có công thức được công bố.</p>}@foreach(var f in d.Formulas){<article class="formula-card">
+<h3>@f.Name</h3>
+<code>@f.Expression</code>
+<p>@f.Variables</p>
+<p class="formula-condition">
+<strong>Điều kiện:</strong> @f.Conditions</p>
+</article>}</section>
+<section id="examples" class="knowledge-section">
+<span class="section-number">05</span>
+<h2>Ví dụ</h2>@if(d.Examples.Length==0){<p>Chưa có ví dụ được công bố.</p>}<ol>@foreach(var item in d.Examples){<li>@item</li>}</ol>
+</section>
+<section id="sources" class="knowledge-section">
+<h2>Nguồn nội dung</h2>@if(d.Sources.Length==0){<p>Chưa khai báo nguồn. Cần nhóm dự án bổ sung trước nghiệm thu.</p>}<ul>@foreach(var s in d.Sources){<li>
+<strong>@s.Title:</strong> @s.Locator</li>}</ul>
+</section>
+</div>
+</div>}

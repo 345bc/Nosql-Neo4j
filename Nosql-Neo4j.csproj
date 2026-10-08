@@ -1,9 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RootNamespace>Nosql_Neo4j</RootNamespace>
     <UserSecretsId>e3c7d855-6047-4aeb-8401-89a764d004e5</UserSecretsId>
   </PropertyGroup>
@@ -20,8 +21,5 @@
     <None Remove="Tests/**" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Dev\" />
-  </ItemGroup>
-
+  <ItemGroup><Compile Remove="tests/**/*.cs"/><Content Remove="tests/**"/><None Remove="tests/**"/></ItemGroup>
 </Project>

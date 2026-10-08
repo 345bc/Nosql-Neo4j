@@ -30,11 +30,6 @@ public sealed class PracticeRepository(IDriver driver, IConfiguration configurat
                 WITH q, v, topics[0] AS s
                 WHERE v.status = $status AND s.status = $status
                   AND ($topicId IS NULL OR s.id = $topicId)
-                  AND ($status <> 'PUBLISHED' OR
-                    (trim(coalesce(v.sourceTitle, '')) <> '' AND trim(coalesce(v.sourceLocator, '')) <> ''
-                     AND trim(coalesce(v.reviewedBy, '')) <> '' AND v.reviewedAt IS NOT NULL
-                     AND trim(coalesce(s.sourceTitle, '')) <> '' AND trim(coalesce(s.sourceLocator, '')) <> ''
-                     AND trim(coalesce(s.reviewedBy, '')) <> '' AND s.reviewedAt IS NOT NULL))
                 RETURN q.id AS questionId, v.id AS versionId, s.id AS topicId,
                        coalesce(v.prompt, '') AS prompt,
                        coalesce(v.optionA, '') AS a, coalesce(v.optionB, '') AS b,

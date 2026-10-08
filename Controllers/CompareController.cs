@@ -31,7 +31,6 @@ namespace Nosql_Neo4j.Controllers
         public async Task<IActionResult> Index()
         {
             await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase(_database));
-            await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase(_database));
             var shapes = await session.ExecuteReadAsync(async tx =>
             {
                 var cursor = await tx.RunAsync("MATCH (s:Shape) RETURN s.id AS id, s.name AS name ORDER BY s.name");
@@ -50,7 +49,6 @@ namespace Nosql_Neo4j.Controllers
         {
             if (string.IsNullOrEmpty(shape1) || string.IsNullOrEmpty(shape2)) return RedirectToAction("Index");
 
-            await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase(_database));
             await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase(_database));
             
             async Task<ShapeDetails> GetShapeInfo(string shapeId)

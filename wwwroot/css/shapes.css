@@ -1,11 +1,11 @@
 :root {
-  --ink: #172a28;
-  --muted: #5e706c;
-  --green: #176a57;
-  --light: #e9f3ed;
-  --border: #dce6df;
-  --paper: #f7f9f5;
-  --orange: #df8a45;
+  --ink: #172b4d;
+  --muted: #60718b;
+  --green: #245edb;
+  --light: #edf4ff;
+  --border: #dee7f3;
+  --paper: #f7faff;
+  --orange: #245edb;
 }
 * {
   box-sizing: border-box;
@@ -44,7 +44,7 @@ select {
   touch-action: manipulation;
 }
 :focus-visible {
-  outline: 3px solid #bd681f;
+  outline: 3px solid #3976e7;
   outline-offset: 4px;
 }
 .skip-link {
@@ -183,7 +183,7 @@ p {
   text-decoration: none;
 }
 .button:hover {
-  background: #105240;
+  background: #194ab8;
   text-decoration: none;
 }
 .button:disabled {
@@ -193,7 +193,7 @@ p {
 .button.secondary {
   color: var(--green);
   background: transparent;
-  border-color: #a9c6b7;
+  border-color: #bed0f3;
 }
 .button.secondary:hover {
   background: var(--light);
@@ -217,7 +217,7 @@ p {
 }
 .hero-art {
   border: 1px solid var(--border);
-  background: #edf3e8;
+  background: #edf4ff;
   border-radius: 24px;
   position: relative;
   overflow: hidden;
@@ -227,17 +227,17 @@ p {
   width: 100%;
 }
 .art-grid {
-  stroke: #dae5d5;
+  stroke: #d5e2fa;
   stroke-width: 1;
   fill: none;
 }
 .art-back {
-  fill: #e3ebcb;
-  stroke: #afc281;
+  fill: #e0eaff;
+  stroke: #a0bbed;
   stroke-width: 2;
 }
 .art-front {
-  fill: #c6e0d5;
+  fill: #c8dbff;
   fill-opacity: 0.8;
   stroke: var(--green);
   stroke-width: 3;
@@ -319,7 +319,7 @@ p {
 }
 .convention p {
   margin: 5px 0 0;
-  color: #355d50;
+  color: #294e8a;
 }
 .site-footer {
   border-top: 1px solid var(--border);
@@ -371,7 +371,7 @@ p {
 }
 input,
 select {
-  border: 1px solid #a3b9ae;
+  border: 1px solid #b6c9ea;
   border-radius: 7px;
   padding: 11px 14px;
   background: #fff;
@@ -405,10 +405,10 @@ small {
 }
 .shape-card:hover {
   transform: translateY(-3px);
-  border-color: #aac8b9;
+  border-color: #adc6f0;
 }
 .shape-picture {
-  background: #edf3e8;
+  background: #edf4ff;
   min-height: 180px;
   display: flex;
   align-items: center;
@@ -480,7 +480,7 @@ small {
   padding: 28px 0 10px;
 }
 .detail-hero img {
-  background: #edf3e8;
+  background: #edf4ff;
   border: 1px solid var(--border);
   border-radius: 15px;
   width: 32%;
@@ -540,7 +540,7 @@ small {
   border: 1px solid var(--border);
   border-radius: 9px;
   margin-bottom: 12px;
-  background: #f8faf6;
+  background: #f8faff;
 }
 .formula-card h3 {
   font-size: 15px;
@@ -600,7 +600,7 @@ small {
 }
 .graph-scroll {
   overflow: auto;
-  background: #f8fbf7;
+  background: #f8faff;
 }
 .taxonomy {
   width: 100%;
@@ -608,11 +608,11 @@ small {
   display: block;
 }
 .graph-edge line {
-  stroke: #a2b3a9;
+  stroke: #a2b6d7;
   stroke-width: 2;
 }
 #arrow path {
-  fill: #708b7e;
+  fill: #6c86ae;
 }
 .graph-edge.selected line {
   stroke: var(--green);
@@ -620,7 +620,7 @@ small {
 }
 .graph-node rect {
   fill: white;
-  stroke: #a9c0b4;
+  stroke: #a9bfe4;
   stroke-width: 1.5;
 }
 .graph-node text {
@@ -645,7 +645,7 @@ small {
 }
 .path-panel {
   background: var(--light);
-  border: 1px solid #b6d0c2;
+  border: 1px solid #b6ccef;
   border-radius: 12px;
   padding: 24px;
   margin: 22px 0;

@@ -31,7 +31,6 @@ namespace Nosql_Neo4j.Repositories
             ArgumentException.ThrowIfNullOrWhiteSpace(toId);
             await using var session = _driver.AsyncSession(
                 config => config.WithDatabase(_database));
-                config => config.WithDatabase(_database));
 
             return await session.ExecuteReadAsync(async transaction =>
             {
@@ -91,7 +90,6 @@ namespace Nosql_Neo4j.Repositories
 
             await using var session = _driver.AsyncSession(
                 config => config.WithDatabase(_database));
-                config => config.WithDatabase(_database));
             return await session.ExecuteReadAsync<ShapePair?>(async transaction =>
             {
                 var left = await ReadDetailAsync(transaction, leftId, status);
@@ -105,7 +103,6 @@ namespace Nosql_Neo4j.Repositories
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(id);
             await using var session = _driver.AsyncSession(
-                config => config.WithDatabase(_database));
                 config => config.WithDatabase(_database));
 
             return await session.ExecuteReadAsync<ShapeDetail?>(
@@ -162,7 +159,6 @@ namespace Nosql_Neo4j.Repositories
         private async Task<IReadOnlyList<ShapeSummary>> GetByStatusAsync(string status)
         {
             await using var session = _driver.AsyncSession(
-                config => config.WithDatabase(_database));
                 config => config.WithDatabase(_database));
 
             return await session.ExecuteReadAsync(async transaction =>

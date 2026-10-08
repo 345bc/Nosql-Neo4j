@@ -118,7 +118,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
-if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/Error"); app.UseHsts(); app.UseHttpsRedirection(); }
 app.Use(async (context, next) =>
 {
     context.Response.Headers["X-Content-Type-Options"] = "nosniff";
@@ -129,7 +128,5 @@ app.Use(async (context, next) =>
     await next();
 });
 app.UseStatusCodePagesWithReExecute("/Status", "?code={0}");
-app.UseRouting(); app.UseAuthorization(); app.MapStaticAssets();
-app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}").WithStaticAssets();
 app.Run();
 public partial class Program;

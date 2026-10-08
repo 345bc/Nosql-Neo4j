@@ -6,7 +6,6 @@ namespace Nosql_Neo4j.Controllers;
 public class HomeController : Controller
 {
     [HttpGet] public IActionResult Index() => View();
-    [HttpGet] public IActionResult Privacy() => View();
 
     // Exception handler có thể re-execute cả POST nên không giới hạn Error chỉ GET.
     [Route("/Error")]

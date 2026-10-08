@@ -1,0 +1,66 @@
+@model DraftQuestionsViewModel
+@{
+    ViewData["Title"] = "Kiểm tra câu hỏi Neo4j";
+}
+
+<h1>@ViewData["Title"]</h1>
+<p class="text-muted">Câu hỏi DRAFT · Chỉ dùng trong Development · Chưa tạo đề hoặc chấm điểm</p>
+
+<form asp-controller="Dev" asp-action="Questions" method="get" class="mb-3">
+    <label for="topicId" class="form-label">Chủ đề bản nháp</label>
+    <select id="topicId" name="topicId" class="form-select mb-2">
+        @foreach (var topic in Model.Topics)
+        {
+            <option value="@topic.Id" selected="@(topic.Id == Model.TopicId)">@topic.Name</option>
+        }
+    </select>
+    <button type="submit" class="btn btn-primary">Kiểm tra câu hỏi</button>
+</form>
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger" role="alert">@Model.ErrorMessage</div>
+}
+else
+{
+    @if (Model.ValidationErrors.Count > 0)
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong>Dữ liệu cần sửa</strong>
+            <ul class="mb-0">
+                @foreach (var error in Model.ValidationErrors) { <li>@error</li> }
+            </ul>
+        </div>
+    }
+    <div class="alert alert-info" role="status">
+        Đọc được @Model.Questions.Count dòng câu hỏi thuộc @Model.TopicId.
+        Đây là kết quả đọc bản nháp; không kiểm tra đáp án đúng hoặc nguồn duyệt.
+    </div>
+    @if (Model.Questions.Count == 0)
+    {
+        <p>Chưa có câu hỏi bản nháp của chủ đề này. Kiểm tra seed-questions.cypher và quan hệ CURRENT/ABOUT.</p>
+    }
+    else if (Model.Questions.Select(q => q.QuestionId).Distinct().Count() < 10)
+    {
+        <div class="alert alert-warning">Chưa đủ 10 mã câu khác nhau để kiểm tra luồng tạo đề.</div>
+    }
+
+    @foreach (var question in Model.Questions)
+    {
+        <section class="card mb-3" aria-label="Câu hỏi @question.QuestionId">
+            <div class="card-body">
+                <h2 class="h5">@question.Prompt</h2>
+                <p class="text-muted">@question.QuestionId · @question.VersionId</p>
+                <ul class="list-unstyled mb-0">
+                    @foreach (var option in question.Options)
+                    {
+                        <li class="mb-1"><strong>@option.Key.</strong> @option.Text</li>
+                    }
+                </ul>
+            </div>
+        </section>
+    }
+}
+
+<a asp-controller="Dev" asp-action="Shapes" class="btn btn-outline-primary">Danh sách hình</a>
+<a asp-controller="Dev" asp-action="Graph" class="btn btn-outline-primary">Đồ thị</a>

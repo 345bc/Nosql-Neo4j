@@ -16,6 +16,9 @@
   <ItemGroup>
     <Content Remove=".env;.env.*" />
     <None Remove=".env;.env.*" />
+    <Compile Remove="Tests/**/*.cs" />
+    <Content Remove="Tests/**" />
+    <None Remove="Tests/**" />
   </ItemGroup>
 
   <ItemGroup><Compile Remove="tests/**/*.cs"/><Content Remove="tests/**"/><None Remove="tests/**"/></ItemGroup>

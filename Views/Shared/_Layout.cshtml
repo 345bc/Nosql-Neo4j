@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,12 +24,29 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-controller="Practice" asp-action="Index">Luyện tập</a>
                         </li>
-                    <li class="nav-item"><a class="nav-link text-dark" asp-controller="Shapes" asp-action="Index">Tra cứu</a></li>
-<li class="nav-item"><a class="nav-link text-dark" asp-controller="Shapes" asp-action="Graph">Đồ thị</a></li>
-<li class="nav-item"><a class="nav-link text-dark" asp-controller="Compare" asp-action="Index">So sánh</a></li>
-</ul>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="compare" asp-action="Index">So sánh</a>
+                        </li>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Progress" asp-action="History">Lịch sử</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-controller="Progress" asp-action="Statistics">Thống kê</a></li>
+                        }
+                    </ul>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <span class="navbar-text me-3">@User.Identity.Name</span>
+                        <a asp-controller="Account" asp-action="ChangePassword" class="nav-link me-3">Đổi mật khẩu</a>
+                        <form asp-controller="Account" asp-action="Logout" method="post">
+                            <button type="submit" class="btn btn-outline-primary">Đăng xuất</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary">Đăng nhập</a>
+                    }
                 </div>
             </div>
         </nav>

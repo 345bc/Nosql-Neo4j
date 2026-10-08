@@ -20,6 +20,7 @@ Pair đọc hai hình trong cùng giao dịch đọc; thiếu/trùng ID gây Arg
 GetGraph trả toàn bộ node/cạnh đúng trạng thái cùng các đường giữa hai ID. ID không có hoặc không có đường trả Paths rỗng; service phân biệt ID sai nếu cần. Truy vấn đường giới hạn 5 cạnh cho bộ sáu hình; thêm loại hình phải rà lại giới hạn. Node lẻ vẫn có trong Nodes.
 
 Model thật nằm trong Models/: ShapeSummary, ShapeDetail, ShapeFormula, ShapeGraph, ShapeEdge, ShapePair. Template ViewModel trong templates/ là hướng dẫn, không phải lớp đã đăng ký hay được biên dịch. Service ánh xạ model repository sang ViewModel của trang.
+ShapeDetail bổ sung các thuộc tính init SourceTitle/SourceLocator/ReviewedBy/ReviewedAt/Convention để Vỷ ánh xạ nguồn/quy ước; giữ nguyên constructor và chữ ký IShapeRepository. Chuỗi rỗng biểu thị chưa có metadata, ReviewedAt là chuỗi datetime Neo4j. Không tự tạo nguồn khi trường trống.
 
 ## Chạy và kiểm tra
 
@@ -33,6 +34,6 @@ Seed vẫn DRAFT nên hàm Published trả rỗng/null cho đến khi nội dung
 
 ## Phần chưa hoàn tất
 
-Core này hỗ trợ đọc kiến thức/phân loại. Chưa có tìm kiếm bỏ dấu, schema so sánh theo năm tiêu chí, nguồn/người duyệt, xác thực, tài khoản, câu hỏi, lượt làm bài, audit hoặc backup/restore. Các chức năng này cần PR tiếp theo; không coi cả core/SRS đã hoàn tất.
+Core hỗ trợ đọc kiến thức/phân loại; nhánh Tuấn bổ sung đăng nhập/đổi mật khẩu, 60 câu nháp, luyện tập/chấm điểm, lịch sử/thống kê cá nhân và snapshot AttemptItem. Xem docs/tuan-handoff.md, docs/practice.md và docs/database-operations.md. Có audit đổi mật khẩu và hướng dẫn backup offline; chưa có quản trị tài khoản/công bố bằng giao diện hoặc diễn tập dump/restore. Tìm kiếm/đồ thị công khai và bảng so sánh năm tiêu chí cần bàn giao module của Vỷ/Tín; không coi toàn bộ SRS đã hoàn tất.
 
 Tuấn đưa thay đổi lên repo chung; Vỷ/Tín fork hoặc đồng bộ upstream rồi làm nhánh chức năng. Không gửi .env thật lên GitHub. Đổi interface/schema cần báo hai người còn lại và cập nhật tài liệu cùng PR.

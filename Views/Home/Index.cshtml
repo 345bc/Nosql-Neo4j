@@ -1,8 +1,12 @@
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Học toán tứ giác";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="py-4">
+    <h1>Học toán tứ giác</h1>
+    <p class="lead">Luyện tập theo chủ đề, xem lời giải và theo dõi kết quả học tập của bạn.</p>
+    <p>Mỗi lượt có 10 câu. Đúng được 1 điểm; sai hoặc bỏ trống được 0 điểm.</p>
+    <a asp-controller="Practice" asp-action="Index" class="btn btn-primary">Bắt đầu luyện tập</a>
+    @if (User.Identity?.IsAuthenticated == true)
+    { <a asp-controller="Progress" asp-action="Statistics" class="btn btn-outline-primary ms-2">Xem tiến độ của tôi</a> }
 </div>

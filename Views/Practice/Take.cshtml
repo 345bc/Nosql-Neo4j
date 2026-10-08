@@ -1,0 +1,35 @@
+@model PracticeTakeViewModel
+@{ ViewData["Title"] = "Làm bài"; }
+<h1>Làm bài</h1>
+@if (Model.Paper.IsDemo)
+{
+    <div class="alert alert-info">Lượt demo dùng câu hỏi bản nháp. Đây là kết quả thử, không tính vào thống kê luyện tập chính thức.</div>
+}
+<p>Chọn một đáp án mỗi câu. Có thể bỏ trống. Đề được giữ cố định cho lượt này.</p>
+<p class="text-muted">Hết hạn lúc @Model.Paper.ExpiresAt.ToOffset(TimeSpan.FromHours(7)).ToString("HH:mm dd/MM/yyyy") (giờ Việt Nam).</p>
+<form asp-controller="Practice" asp-action="Submit" asp-route-id="@Model.Paper.Id" method="post">
+    <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+    @for (var i = 0; i < Model.Paper.Questions.Length; i++)
+    {
+        var question = Model.Paper.Questions[i];
+        var answer = Model.Input.Items[i];
+        <fieldset class="card mb-3 p-3">
+            <legend class="h5">Câu @(i + 1). @question.Prompt</legend>
+            <input type="hidden" name="Items[@i].ItemId" value="@question.ItemId" />
+            @foreach (var option in question.Options)
+            {
+                var inputId = $"answer-{i}-{option.Key}";
+                <div class="form-check">
+                    <input id="@inputId" type="radio" class="form-check-input"
+                           name="Items[@i].SelectedKey" value="@option.Key" checked="@(answer.SelectedKey == option.Key)" />
+                    <label for="@inputId" class="form-check-label">@option.Key. @option.Text</label>
+                </div>
+            }
+            <div class="form-check">
+                <input id="blank-@i" type="radio" class="form-check-input" name="Items[@i].SelectedKey" value="" checked="@(answer.SelectedKey is null)" />
+                <label for="blank-@i" class="form-check-label text-muted">Bỏ trống</label>
+            </div>
+        </fieldset>
+    }
+    <button type="submit" class="btn btn-primary">Nộp bài và xem kết quả</button>
+</form>

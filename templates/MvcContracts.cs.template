@@ -51,15 +51,12 @@ public interface ICompareService
 }
 // Danh tính lấy từ server, không lấy từ form; null là chưa đăng nhập.
 public interface ICurrentUser { string? Id { get; } }
-public interface IPracticeService
-{
-    Task<string> CreateAsync(CreateAttemptInput input, CancellationToken ct);
-    // null: không có/không thuộc chủ. Exception nghiệp vụ: đã nộp/hết hạn.
-    Task<AttemptPaperVm?> GetPaperAsync(string id, CancellationToken ct);
-    Task<AttemptResultVm?> SubmitAsync(string id, SubmitAttemptInput input, CancellationToken ct);
-    // Exception nghiệp vụ: chưa nộp/hết hạn. Xử lý điều hướng theo mvc.md.
-    Task<AttemptResultVm?> GetResultAsync(string id, CancellationToken ct);
-}
+// Luyện tập đã triển khai: dùng Nosql_Neo4j.Services.IPracticeService thật.
+// CreateAsync(userId, topicId), CreateDemoAsync(userId, topicId),
+// GetPaperAsync(userId, id), SubmitAsync(userId, id, PracticeSubmitInput), GetResultAsync(userId, id).
+// UserId lấy từ claim NameIdentifier phía server. Không sao chép interface/DTO mẫu phía trên
+// để thay thế Models/PracticeModels.cs; View Take nhận PracticePaper, Result nhận PracticeResult.
+// Báo cáo dùng IPracticeReportService + PracticeReportFilter/PracticeReportViewModel.
 public sealed class DomainValidationException : Exception
 {
     public string Code { get; }

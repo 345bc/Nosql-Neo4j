@@ -1,0 +1,25 @@
+@model PracticeReportViewModel
+@{ ViewData["Title"] = "Thống kê cá nhân"; }
+<h1 class="h2">Thống kê cá nhân</h1>
+<p>Chỉ tính các lượt đã nộp của bạn. Câu bỏ trống được tính vào tổng số câu.</p>
+<partial name="_Filter" model="Model" />
+@if (Model.Statistics is { } stats)
+{
+    @if (stats.Attempts == 0) { <p>Chưa có dữ liệu trong khoảng đã chọn.</p> }
+    else
+    {
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6"><div class="card card-body"><span>Số lượt đã nộp</span><strong class="fs-2">@stats.Attempts</strong></div></div>
+            <div class="col-sm-6"><div class="card card-body"><span>Điểm trung bình / 10</span><strong class="fs-2">@stats.Average?.ToString("F2")</strong></div></div>
+        </div>
+        <div class="table-responsive"><table class="table">
+            <thead><tr><th>Chủ đề</th><th>Câu đúng</th><th>Tổng câu</th><th>Tỷ lệ đúng</th></tr></thead>
+            <tbody>@foreach (var topic in stats.Topics)
+            {
+                <tr><td>@(Model.Topics.FirstOrDefault(t => t.Id == topic.TopicId)?.Name ?? topic.TopicId)</td>
+                    <td>@topic.Correct</td><td>@topic.Total</td><td>@topic.Percent.ToString("F1")%</td></tr>
+            }</tbody>
+        </table></div>
+    }
+}
+<a asp-action="History" asp-route-demo="@Model.Filter.Demo">Xem lịch sử luyện tập</a>

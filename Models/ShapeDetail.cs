@@ -14,5 +14,12 @@
         string[] Properties,
         string[] RecognitionSigns,
         string[] Examples,
-        IReadOnlyList<ShapeFormula> Formulas);
+        IReadOnlyList<ShapeFormula> Formulas)
+    {
+        public string SourceTitle { get; init; } = "";
+        public string SourceLocator { get; init; } = "";
+        public string ReviewedBy { get; init; } = "";
+        public string ReviewedAt { get; init; } = "";
+        public string Convention { get; init; } = "";
+    }
 }

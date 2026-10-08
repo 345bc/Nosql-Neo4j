@@ -1,6 +1,6 @@
 # Hợp đồng MVC
 
-Controller + Razor Views, không REST API. Tài liệu này thay pages.md. Các controller chức năng dưới đây là cấu trúc dự kiến; hiện mới có HomeController và DevController.
+Controller + Razor Views, không REST API. Tài liệu này thay pages.md. Đã có Home, Dev, Account, Practice, Progress; Shapes/Compare vẫn là hợp đồng chờ module Vỷ/Tín trong nhánh này.
 
 ## Route/action
 
@@ -22,6 +22,11 @@ Controller + Razor Views, không REST API. Tài liệu này thay pages.md. Các 
 | Practice/Take | /Practice/Take/{id} | Tuấn | GET đề |
 | Practice/Submit | /Practice/Submit/{id} | Tuấn | POST câu trả lời, redirect Result |
 | Practice/Result | /Practice/Result/{id} | Tuấn | GET kết quả |
+| Practice/Demo | /Practice/Demo | Tuấn | POST TopicId, Development và đăng nhập |
+| Dev/Questions | /Dev/Questions | Tuấn | GET(topicId), Development |
+| Account/ChangePassword | /Account/ChangePassword | Tuấn | GET form, POST CurrentPassword/NewPassword/ConfirmPassword |
+| Progress/History | /Progress/History | Tuấn | GET(TopicId,From,To,Demo,Page), đăng nhập |
+| Progress/Statistics | /Progress/Statistics | Tuấn | GET(TopicId,From,To,Demo), đăng nhập |
 
 Route mặc định {controller=Home}/{action=Index}/{id?}; tên action không cần hậu tố Async trên URL.
 View mặc định: Views/{Controller}/{Action}.cshtml. Dùng @model kiểu ViewModel, không @page.
@@ -57,4 +62,6 @@ Compare chưa chọn gì chỉ hiện form; thiếu một ID/trùng ID báo vali
 Chấm server đúng=1, sai/trống=0, commit nguyên tử; nộp lặp tương đương trả kết quả cũ, đổi đáp án sau nộp bị chặn.
 Item thiếu=null, trùng/ngoài đề/sai miền báo lỗi; hạn 24 giờ. GET/POST kiểm tra chủ lượt.
 
-Lịch sử/thống kê/quản trị/đổi mật khẩu chưa chốt action/model; dùng templates/mvc-spec.md trước triển khai.
+Hợp đồng đã triển khai: IPracticeService + PracticeService/IPracticeRepository; AccountService/IUserRepository; IPracticeReportService + PracticeReportService/PracticeReportRepository. Model PracticePaper không chứa đáp án; PracticeResult chỉ đọc sau nộp; PracticeReportFilter/PracticeReportViewModel dùng cho báo cáo, ChangePasswordInput dùng đổi mật khẩu. Model chia theo module tại Models/AccountModels.cs, Models/PracticeModels.cs và Models/PracticeReports.cs.
+
+Lịch sử 10 lượt/trang, chỉ SUBMITTED/chủ lượt. Ngày From/To dạng yyyy-MM-dd theo UTC+7, To bao gồm hết ngày; đảo ngày/giá trị sai trả 400. Demo=false mặc định, Demo=true chỉ Development; Production trả 404 cho URL demo. Quản trị/công bố chưa chốt action/model; dùng templates/mvc-spec.md trước triển khai.

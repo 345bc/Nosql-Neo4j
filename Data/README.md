@@ -24,4 +24,6 @@ Nội dung là bản nháp phát triển do nhóm cần rà soát; chưa có gi�
 
 Trước công bố: bổ sung nguồn thật, đối chiếu định nghĩa/điều kiện/công thức, ghi người và thời gian duyệt; chốt schema nguồn với cả nhóm. Luồng học tập chỉ đọc PUBLISHED. Để kiểm tra CSDL lúc phát triển, dùng verify.cypher hoặc trang chẩn đoán Development đọc DRAFT; không bỏ bộ lọc PUBLISHED ở trang công khai.
 
-Chưa có câu hỏi, tài khoản, lượt làm bài hoặc lịch sử. Đây mới là nền kiến thức/phân loại; các module đó triển khai sau bằng schema riêng đã thống nhất.
+Đã bổ sung `practice-schema.cypher` và `questions-draft.json` cho User/Question/QuestionVersion/Attempt/AttemptItem/AuditEvent. Chạy `dotnet run --launch-profile https -- --setup-data` để tạo schema, seed 60 câu nháp và bổ sung snapshot đồ thị của lượt cũ. `--verify-data` chạy `verify-practice.cypher` chỉ đọc và thất bại nếu có lỗi. Hai file seed câu hình vuông cũ vẫn giữ để tương thích; phiên bản đã có không bị ghi đè. File `question-schema.cypher0` là file cũ, không cần chạy trong quy trình mới.
+
+Mô hình, nguồn/công bố và backup/restore: [docs/database-operations.md](../docs/database-operations.md). Luồng luyện tập và giới hạn: [docs/practice.md](../docs/practice.md).

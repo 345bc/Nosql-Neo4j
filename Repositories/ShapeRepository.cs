@@ -120,6 +120,11 @@ namespace Nosql_Neo4j.Repositories
                            coalesce(s.properties, []) AS properties,
                            coalesce(s.recognitionSigns, []) AS recognitionSigns,
                            coalesce(s.examples, []) AS examples,
+                           coalesce(s.sourceTitle, '') AS sourceTitle,
+                           coalesce(s.sourceLocator, '') AS sourceLocator,
+                           coalesce(s.reviewedBy, '') AS reviewedBy,
+                           coalesce(toString(s.reviewedAt), '') AS reviewedAt,
+                           coalesce(s.convention, '') AS convention,
                            collect(f {
                                .id, .name, .expression, .variables, .conditions
                            }) AS formulas
@@ -140,7 +145,12 @@ namespace Nosql_Neo4j.Repositories
                     record["definition"].As<string>(),
                     record["properties"].As<List<string>>().ToArray(),
                     record["recognitionSigns"].As<List<string>>().ToArray(),
-                    record["examples"].As<List<string>>().ToArray(), formulas);
+                    record["examples"].As<List<string>>().ToArray(), formulas)
+                {
+                    SourceTitle = record["sourceTitle"].As<string>(), SourceLocator = record["sourceLocator"].As<string>(),
+                    ReviewedBy = record["reviewedBy"].As<string>(), ReviewedAt = record["reviewedAt"].As<string>(),
+                    Convention = record["convention"].As<string>()
+                };
         }
 
         private async Task<IReadOnlyList<ShapeSummary>> GetByStatusAsync(string status)

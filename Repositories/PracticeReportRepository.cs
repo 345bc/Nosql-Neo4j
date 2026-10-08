@@ -1,10 +1,13 @@
+using Nosql_Neo4j.Configuration;
 using System.Text.Json;
 using Neo4j.Driver;
 using Nosql_Neo4j.Models;
 namespace Nosql_Neo4j.Repositories;
 
-public sealed class PracticeReportRepository(IDriver driver)
+public sealed class PracticeReportRepository(IDriver driver, IConfiguration configuration)
 {
+    private readonly string _database = configuration.GetNeo4jDatabaseName();
+
     private const string Match = """
         MATCH (:User {id: $userId})-[:STARTED]->(a:Attempt)
         WHERE a.status = 'SUBMITTED' AND coalesce(a.isDemo, false) = $demo
@@ -27,7 +30,7 @@ public sealed class PracticeReportRepository(IDriver driver)
         parameters["limit"] = size;
         // topicIds is captured at creation; old attempts have topicId in stateJson.
         const string topic = " AND ($topicId IS NULL OR $topicId IN coalesce(a.topicIds, [])) ";
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         return await session.ExecuteReadAsync(async tx =>
         {
             var count = await tx.RunAsync(Match + topic + " RETURN count(a) AS total", parameters);
@@ -47,7 +50,7 @@ public sealed class PracticeReportRepository(IDriver driver)
 
     public async Task<PracticeStatistics> StatisticsAsync(string userId, PracticeReportFilter filter)
     {
-        await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+        await using var session = driver.AsyncSession(c => c.WithDatabase(_database));
         return await session.ExecuteReadAsync(async tx =>
         {
             var cursor = await tx.RunAsync(Match +

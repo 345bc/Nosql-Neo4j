@@ -1,13 +1,16 @@
-﻿using Neo4j.Driver;
+using Nosql_Neo4j.Configuration;
+using Neo4j.Driver;
 using Nosql_Neo4j.Models;
 namespace Nosql_Neo4j.Repositories
 {
     public sealed class ShapeRepository : IShapeRepository
     {
         private readonly IDriver _driver;
-        public ShapeRepository(IDriver driver)
+        private readonly string _database;
+        public ShapeRepository(IDriver driver, IConfiguration configuration)
         {
             _driver = driver;
+            _database = configuration.GetNeo4jDatabaseName();
         }
 
         public Task<IReadOnlyList<ShapeSummary>> GetPublishedAsync()
@@ -27,7 +30,7 @@ namespace Nosql_Neo4j.Repositories
             ArgumentException.ThrowIfNullOrWhiteSpace(fromId);
             ArgumentException.ThrowIfNullOrWhiteSpace(toId);
             await using var session = _driver.AsyncSession(
-                config => config.WithDatabase("nosql-neo4j"));
+                config => config.WithDatabase(_database));
 
             return await session.ExecuteReadAsync(async transaction =>
             {
@@ -86,7 +89,7 @@ namespace Nosql_Neo4j.Repositories
                 throw new ArgumentException("Chọn hai hình khác nhau.", nameof(rightId));
 
             await using var session = _driver.AsyncSession(
-                config => config.WithDatabase("nosql-neo4j"));
+                config => config.WithDatabase(_database));
             return await session.ExecuteReadAsync<ShapePair?>(async transaction =>
             {
                 var left = await ReadDetailAsync(transaction, leftId, status);
@@ -100,7 +103,7 @@ namespace Nosql_Neo4j.Repositories
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(id);
             await using var session = _driver.AsyncSession(
-                config => config.WithDatabase("nosql-neo4j"));
+                config => config.WithDatabase(_database));
 
             return await session.ExecuteReadAsync<ShapeDetail?>(
                 transaction => ReadDetailAsync(transaction, id, status));
@@ -156,7 +159,7 @@ namespace Nosql_Neo4j.Repositories
         private async Task<IReadOnlyList<ShapeSummary>> GetByStatusAsync(string status)
         {
             await using var session = _driver.AsyncSession(
-                config => config.WithDatabase("nosql-neo4j"));
+                config => config.WithDatabase(_database));
 
             return await session.ExecuteReadAsync(async transaction =>
             {

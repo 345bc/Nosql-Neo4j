@@ -1,16 +1,19 @@
-﻿using Neo4j.Driver;
+using Nosql_Neo4j.Configuration;
+using Neo4j.Driver;
 using Nosql_Neo4j.Models;
 
 namespace Nosql_Neo4j.Repositories
 {
-    public sealed class QuestionRepository(IDriver driver):IQuestionRepository
+    public sealed class QuestionRepository(IDriver driver, IConfiguration configuration):IQuestionRepository
     {
+        private readonly string _database = configuration.GetNeo4jDatabaseName();
+
         public async Task<IReadOnlyList<Question>>GetDraftByTopicAsync(string topicId)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(topicId);
 
             await using var session = driver.AsyncSession(
-           config => config.WithDatabase("nosql-neo4j"));
+           config => config.WithDatabase(_database));
 
             return await session.ExecuteReadAsync(async transaction =>
             {

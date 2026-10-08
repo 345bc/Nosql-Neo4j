@@ -1,3 +1,4 @@
+using Nosql_Neo4j.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Neo4j.Driver;
@@ -19,12 +20,17 @@ namespace Nosql_Neo4j.Controllers
     public class CompareController : Controller
     {
         private readonly IDriver _driver;
+        private readonly string _database;
 
-        public CompareController(IDriver driver) { _driver = driver; }
+        public CompareController(IDriver driver, IConfiguration configuration)
+        {
+            _driver = driver;
+            _database = configuration.GetNeo4jDatabaseName();
+        }
 
         public async Task<IActionResult> Index()
         {
-            await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase("nosql-neo4j"));
+            await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase(_database));
             var shapes = await session.ExecuteReadAsync(async tx =>
             {
                 var cursor = await tx.RunAsync("MATCH (s:Shape) RETURN s.id AS id, s.name AS name ORDER BY s.name");
@@ -43,7 +49,7 @@ namespace Nosql_Neo4j.Controllers
         {
             if (string.IsNullOrEmpty(shape1) || string.IsNullOrEmpty(shape2)) return RedirectToAction("Index");
 
-            await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase("nosql-neo4j"));
+            await using var session = _driver.AsyncSession(configBuilder => configBuilder.WithDatabase(_database));
             
             async Task<ShapeDetails> GetShapeInfo(string shapeId)
             {

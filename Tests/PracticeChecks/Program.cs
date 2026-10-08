@@ -6,6 +6,8 @@ using Nosql_Neo4j.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 using Nosql_Neo4j.Configuration;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
 
 var clock = new TestClock();
 var repo = new FakeRepository();
@@ -21,6 +23,37 @@ async Task Error(string code, Func<Task> action)
 {
     try { await action(); throw new Exception("Expected " + code); }
     catch (PracticeException e) { Check(e.Code == code, code); }
+}
+var databaseConfig = new ConfigurationBuilder().AddInMemoryCollection().Build();
+Check(databaseConfig.GetNeo4jDatabaseName() == "nosql-neo4j", "database default for existing configurations");
+databaseConfig["Neo4j:Database"] = "integration-demo";
+Check(databaseConfig.GetNeo4jDatabaseName() == "integration-demo", "configured database overrides default");
+databaseConfig["Neo4j:Database"] = " ";
+try
+{
+    databaseConfig.GetNeo4jDatabaseName();
+    throw new Exception("Expected blank database rejection");
+}
+catch (InvalidOperationException)
+{
+    Check(true, "blank database rejected instead of selecting a different database");
+}
+var envRoot = Path.Combine(Path.GetTempPath(), "neo4j-database-check-" + Guid.NewGuid().ToString("N"));
+Directory.CreateDirectory(envRoot);
+try
+{
+    File.WriteAllText(Path.Combine(envRoot, ".env"), "Neo4j__Database=integration-demo\n");
+    var envBuilder = WebApplication.CreateBuilder(new WebApplicationOptions
+        { EnvironmentName = "Development", ContentRootPath = envRoot, Args = [] });
+    envBuilder.AddLocalNeo4jEnv();
+    Check(envBuilder.Configuration.GetNeo4jDatabaseName() ==
+        (Environment.GetEnvironmentVariable("Neo4j__Database") ?? "integration-demo"),
+        "local env accepts database key with environment override priority");
+}
+finally
+{
+    File.Delete(Path.Combine(envRoot, ".env"));
+    Directory.Delete(envRoot);
 }
 await Error("INSUFFICIENT_QUESTIONS", async () => await service.CreateAsync("u1", null));
 repo.Candidates = Enumerable.Range(1, 10).Select(i => new QuestionSnapshot(

@@ -15,9 +15,9 @@ var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 builder.AddLocalNeo4jEnv();
 await using var driver = GraphDatabase.Driver(builder.Configuration["Neo4j:Uri"],
     AuthTokens.Basic(builder.Configuration["Neo4j:Username"], builder.Configuration["Neo4j:Password"]));
-var users = new UserRepository(driver);
-var repository = new PracticeRepository(driver);
-var reports = new PracticeReportRepository(driver);
+var users = new UserRepository(driver, builder.Configuration);
+var repository = new PracticeRepository(driver, builder.Configuration);
+var reports = new PracticeReportRepository(driver, builder.Configuration);
 var practice = new PracticeService(repository, TimeProvider.System, builder.Environment);
 var hasher = new PasswordHasher<UserAccount>();
 var accounts = new AccountService(users, hasher);
@@ -34,7 +34,7 @@ try
         var account = new UserAccount(userId, "check_" + userId, "Kiểm tra tạm", "", "USER", "ACTIVE", Guid.NewGuid().ToString("N"));
         await users.CreateAsync(account with { PasswordHash = hasher.HashPassword(account, "TemporaryCheck@2026!") });
     }
-    var shapes = new ShapeRepository(driver);
+    var shapes = new ShapeRepository(driver, builder.Configuration);
     var graphData = await shapes.GetDraftGraphAsync("HINH_VUONG", "TU_GIAC");
     Check(graphData.Nodes.Count == 6 && graphData.Edges.Count == 6, "core six shapes and direct edges");
     Check(graphData.Paths.Count == 2 && graphData.Paths.All(p => p.First() == "HINH_VUONG" && p.Last() == "TU_GIAC") &&
@@ -133,7 +133,7 @@ try
             RedirectStandardOutput = true, RedirectStandardError = true, WorkingDirectory = Directory.GetCurrentDirectory() };
         foreach (var value in new[] { Path.GetFullPath("obj/local-check/Nosql-Neo4j.dll"), "--urls", productionAddress.ToString(),
             "--environment", "Production", "--Logging:EventLog:LogLevel:Default", "None" }) processInfo.ArgumentList.Add(value);
-        foreach (var key in new[] { "Uri", "Username", "Password" })
+        foreach (var key in new[] { "Uri", "Username", "Password", "Database" })
             processInfo.Environment["Neo4j__" + key] = builder.Configuration["Neo4j:" + key];
         using var production = Process.Start(processInfo)!;
         var productionOutput = production.StandardOutput.ReadToEndAsync();
@@ -180,7 +180,7 @@ try
         Check(revoked.StatusCode == HttpStatusCode.Redirect && revoked.Headers.Location!.ToString().Contains("/Account/Login"),
             "HTTP old cookie revoked after password change");
     }
-    await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+    await using var session = driver.AsyncSession(c => c.WithDatabase(builder.Configuration.GetNeo4jDatabaseName()));
     var graph = await session.RunAsync("MATCH (a:Attempt {id:$id})-[:HAS_ITEM]->(i:AttemptItem) RETURN count(i) AS items, sum(CASE WHEN i.isCorrect THEN 1 ELSE 0 END) AS score", new { id });
     await graph.FetchAsync();
     Check(graph.Current["items"].As<int>() == 10 && graph.Current["score"].As<int>() == 7, "graph snapshot and score atomic");
@@ -190,7 +190,7 @@ finally
 {
     web?.Dispose(); otherWeb?.Dispose();
     // Delete only nodes owned by the two unique IDs created by this run.
-    await using var session = driver.AsyncSession(c => c.WithDatabase("nosql-neo4j"));
+    await using var session = driver.AsyncSession(c => c.WithDatabase(builder.Configuration.GetNeo4jDatabaseName()));
     await session.ExecuteWriteAsync(async tx =>
     {
         foreach (var query in new[] {

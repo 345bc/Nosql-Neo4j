@@ -1,6 +1,6 @@
 # Bàn giao core đọc dữ liệu Neo4j
 
-Ứng dụng .NET 10 MVC với Controller và Razor Views, không REST API. Các repository đã đăng ký trong Program.cs và dùng chung IDriver. Database hiện được chỉ định là nosql-neo4j; mọi thành viên cần tạo/seed đúng database này.
+Ứng dụng .NET 10 MVC với Controller và Razor Views, không REST API. Các repository đã đăng ký trong Program.cs và dùng chung IDriver. Tất cả repository, phần so sánh và lệnh dữ liệu đọc chung `Neo4j:Database`, mặc định `nosql-neo4j`. Trong Development có thể đặt `Neo4j__Database=nosql-neo4j` trong `.env`; khi deploy dùng biến môi trường cùng tên. Mọi thành viên cần tạo/seed đúng database được cấu hình.
 
 ## Cách dùng IShapeRepository
 

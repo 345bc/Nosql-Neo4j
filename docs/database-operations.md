@@ -1,19 +1,19 @@
 # CSDL của Tuấn
 
-Database ứng dụng: `nosql-neo4j`. Mỗi thành viên chạy instance riêng. Git lưu schema/seed, không chứa mật khẩu, dump hoặc dữ liệu học viên.
+Database ứng dụng đọc từ `Neo4j:Database`, mặc định `nosql-neo4j`. Đặt `Neo4j__Database` trong `.env` local hoặc biến môi trường khi deploy. Nếu dùng tên khác, thay tên database trong các lệnh backup/restore bên dưới cho khớp. Mỗi thành viên chạy instance riêng. Git lưu schema/seed, không chứa mật khẩu, dump hoặc dữ liệu học viên.
 
 ## Khởi tạo và nâng cấp local
 
 Sau khi bật Neo4j, tạo database và điền `.env`:
 
 ```powershell
-dotnet run --launch-profile https -- --setup-data
+dotnet run --launch-profile https -- --migrate
 dotnet run --launch-profile https -- --verify-data
 ```
 
-`--setup-data` chỉ chạy trong Development. Chạy constraints/indexes, seed sáu hình/mười công thức, 60 câu nháp và bổ sung snapshot đồ thị cho lượt đã tồn tại. Chạy lại không nhân bản ID, không xóa lượt/tài khoản, không đổi đáp án hoặc lời giải của phiên bản câu hỏi đã tồn tại. Seed kiến thức có cập nhật các trường kiến thức DRAFT; dùng bootstrap khi không ai đang chỉnh nội dung. Không dùng lệnh này thay công cụ biên tập dữ liệu thật.
+`--migrate` chỉ chạy trong Development. Chạy constraints/indexes, seed sáu hình/mười công thức, 60 câu nháp, 49 KnowledgeItem của Vỷ và tài khoản demo_tuan. Snapshot lượt cũ nâng cấp riêng bằng --migrate-attempts. Chạy lại không nhân bản ID, không xóa lượt/tài khoản, không đổi đáp án hoặc lời giải của phiên bản câu hỏi đã tồn tại. Seed kiến thức có cập nhật các trường kiến thức DRAFT; dùng bootstrap khi không ai đang chỉnh nội dung. Không dùng lệnh này thay công cụ biên tập dữ liệu thật.
 
-`--verify-data` chỉ đọc. Các dòng `invalid…`, `cycle`, `missingPublicationReview` khiến lệnh thất bại; sáu dòng đếm chủ đề không phải lỗi. Kiểm tra kiến thức/phân loại bổ sung bằng `Data/verify.cypher` trong Neo4j Query.
+`--verify-data` chỉ đọc. Các dòng `invalid…`, `cycle`, `missingPublicationReview` khiến lệnh thất bại; sáu dòng đếm chủ đề không phải lỗi. Xem bảng tổng số ở phần 6 của `migration/seed-all.cypher` để kiểm tra kiến thức/phân loại.
 Nếu chỉ nâng cấp lượt từ bản cũ, dừng web cũ rồi chạy `dotnet run --launch-profile https -- --migrate-attempts`. Lệnh tạo snapshot đồ thị từ stateJson và kiểm tra dữ liệu, không chạy lại seed kiến thức.
 
 ## Mô hình

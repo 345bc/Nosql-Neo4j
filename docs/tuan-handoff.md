@@ -14,9 +14,9 @@ Nhánh: `feature/tuan-database-practice`. ASP.NET Core MVC/Razor Views, không R
 
 ## Chạy và demo
 
-1. Bật Neo4j, database `nosql-neo4j`, `.env` riêng.
-2. Dừng phiên web cũ trong Visual Studio trước nâng cấp. Chạy `dotnet run --launch-profile https -- --setup-data`.
-3. Khởi động `dotnet run --launch-profile https`; đăng nhập tài khoản đã cấp. Tài khoản mẫu local `demo_tuan` đã được giữ nguyên; không đặt lại mật khẩu trong mã/seed.
+1. Bật Neo4j, `.env` riêng; chọn database bằng `Neo4j__Database` (mặc định `nosql-neo4j`).
+2. Dừng phiên web cũ trong Visual Studio trước nâng cấp. Chạy `dotnet run --launch-profile https -- --migrate`.
+3. Khởi động `dotnet run --launch-profile https`; đăng nhập tài khoản đã cấp. Seed tạo `demo_tuan` / `DemoTuan@2026!` nếu chưa có, giữ nguyên mật khẩu nếu tài khoản đã tồn tại.
 4. `/Practice`: chọn một trong sáu chủ đề ở phần chạy thử. Làm 10 câu, có thể bỏ trống, nộp rồi xem điểm/lời giải.
 5. Bấm Lịch sử/Thống kê và chọn loại **Chạy thử**. Kết quả chính thức không tính lượt demo.
 6. Trình bày CSDL qua `/Dev/Shapes`, `/Dev/Graph`, `/Dev/Questions` và các query trong Data. Production không mở các trang này.
@@ -34,6 +34,6 @@ Quản trị tài khoản/công bố bằng giao diện, mustChangePassword, th�
 
 ## Hợp đồng thay đổi
 
-Giữ nguyên chữ ký IShapeRepository và constructor ShapeDetail; chỉ bổ sung metadata init. Schema mới tăng labels/constraints/indexes và các quan hệ snapshot, không xóa dữ liệu core. Đồng bộ schema bằng `--setup-data` hoặc `--migrate-attempts` trước chạy bản mới. Các DTO mẫu luyện tập trong templates chỉ tham khảo, mã thật dùng Models/PracticeModels.cs và IPracticeService.
+Giữ nguyên chữ ký IShapeRepository và constructor ShapeDetail; chỉ bổ sung metadata init. Schema mới tăng labels/constraints/indexes và các quan hệ snapshot, không xóa dữ liệu core. Đồng bộ schema bằng `--migrate` hoặc `--migrate-attempts` trước chạy bản mới. Các DTO mẫu luyện tập trong templates chỉ tham khảo, mã thật dùng Models/PracticeModels.cs và IPracticeService.
 
 PR cần review phần hợp đồng dùng chung và checklist ba demo trước merge vào master; không đưa `.env`, dump hoặc dữ liệu kiểm thử cá nhân lên GitHub.
